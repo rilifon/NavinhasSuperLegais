@@ -77,7 +77,7 @@ end
 function Enemy:shoot()
     local s = self
 
-    Bul.create(s.pos.x + s.r, s.pos.y, Vector(-1,0), 5, Color.black())
+    local b = Bul.create(s.pos.x + s.r, s.pos.y, Vector(-1,0), 5, Color.black(), "enemy_bullet")
 
 end
 

@@ -49,6 +49,32 @@ function Bullet:update(dt)
     end
 end
 
+--When an enemy bullet hits the player, just destroy the bullet
+function Bullet:hitPlayer()
+
+    self.death = true
+
+end
+
+--Check collision of bullet with something
+function Bullet:collides(mode)
+
+    if mode == "player" then
+        local s = Util.findId("player")
+        if s then
+            local bul = self
+            local dx = bul.pos.x - s.pos.x
+            local dy = bul.pos.y - s.pos.y
+            local dr = bul.r + s.r
+
+            return (dx*dx + dy*dy) < dr*dr
+        end
+    end
+
+    return false
+end
+
+
 --UTILITY FUNCTIONS--
 
 --Create a bullet in the (x,y) position, direction dir, color c and subtype st

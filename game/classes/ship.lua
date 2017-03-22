@@ -38,6 +38,10 @@ function Ship:update(dt)
 
 end
 
+function Ship:getHit()
+    print "got hit"
+end
+
 function Ship:keypressed(key)
     local s = self --Ship
 

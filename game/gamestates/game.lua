@@ -12,6 +12,10 @@ local state = {}
 
 local pulsed --If ship already pulsed
 
+--LOCAL FUNCTIONS--
+
+local checkCollisions
+
 --STATE FUNCTIONS--
 
 function state:enter()
@@ -63,6 +67,8 @@ function state:update(dt)
 
 	Util.updateTimers(dt)
 
+	checkCollisions()
+
 	Util.destroyAll()
 
 end
@@ -78,6 +84,23 @@ function state:keypressed(key)
 
 	if s then s:keypressed(key) end --Handles keypressing for player
     Util.defaultKeyPressed(key)    --Handles keypressing for general stuff
+
+end
+
+--LOCAL FUNCTIONS
+
+function checkCollisions()
+	local s = Util.findId("player")
+	local enemy_b = Util.findSbTp("enemy_bullet")
+
+	if enemy_b and s then
+		for bullet in pairs(enemy_b) do
+			if bullet:collides("player") then
+				s:getHit()
+				bullet:hitPlayer()
+			end
+		end
+	end
 
 end
 
