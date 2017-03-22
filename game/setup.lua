@@ -23,6 +23,12 @@ function setup.config()
     BPM_M = 128 --Beats per minute of current BGM
     BPM_C = 0   --BPM counter
 
+    PULSE_TIME = .2 --Time for ship to start and finish a pulse
+
+    TILESIZE = 80
+    GRID_ROWS = 3  --How many rows the grid has
+    GRID_COLS = 15 --How many tiles per row
+
     --TIMERS--
     MAIN_TIMER = Timer.new()  --General Timer
 

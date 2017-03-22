@@ -12,15 +12,21 @@ Ship = Class{
     __includes = {CIRC},
     init = function(self, _x, _y)
 
-        self.default_r = 80 --Default radius size of ship
-        self.pulse_r = 60 --Radius when ship is pulsing
+        self.default_r = TILESIZE/3 --Default radius size of ship
+        self.pulse_r = TILESIZE/4 --Radius when ship is pulsing
         self.pulsing = false --If ship is pulsing
 
-        self.speedv = 300 --Speed value
-        self.speed  = Vector(0,0) --Speed vector
+        self.chain_bonus = 0 --Chain bonus of hitting on the beat
+
+        self.grid_x = _x or 1
+        self.grid_y = _y or 1
+
+        local x = (self.grid_x-1)*TILESIZE + TILESIZE/2
+        local start_grid = (WIN_H - GRID_ROWS*TILESIZE)/2 --Start y position of grid on map
+        local y = start_grid + (self.grid_y-1)*TILESIZE + TILESIZE/2
 
         --Creating circle shape
-        CIRC.init(self, _x or 100, _y or 100, self.default_r, Color.purple())
+        CIRC.init(self, x, y, self.default_r, Color.purple())
 
         self.type = "Ship"
     end
@@ -30,38 +36,38 @@ Ship = Class{
 function Ship:update(dt)
     local s = self
 
-    --Update movement
-    if not s.focused then
-        s.pos = s.pos + dt*s.speed
-    else
-        s.pos = s.pos + dt*s.speed
-    end
-
-    --Fixes if ship leaves screen
-    s.pos.x, s.pos.y = lfuncs.isOutside(s)
-
 end
 
 function Ship:keypressed(key)
     local s = self --Ship
 
     --Movement
-    if key == 'w' or key == 'a' or key == 's' or key == 'd' or
-       key == 'up' or key == 'left' or key == 'down' or key == 'right' then
-        lfuncs.updateSpeed(s)
-    elseif key == "z" or key == "space" then
-        s:shoot()
+    if s.pulsing then
+        if key == 'w' or key == 'up' then
+            if s.grid_y > 1 then
+                s.grid_y = s.grid_y - 1
+                s.pos.y = s.pos.y - TILESIZE
+            end
+        elseif key == 'd' or key == 'right' then
+            if s.grid_x <  GRID_COLS then
+                s.grid_x = s.grid_x + 1
+                s.pos.x = s.pos.x + TILESIZE
+            end
+        elseif key == 's' or key == 'down' then
+            if s.grid_y <  GRID_ROWS then
+                s.grid_y = s.grid_y + 1
+                s.pos.y = s.pos.y + TILESIZE
+            end
+        elseif key == 'a' or key == 'left' then
+            if s.grid_x > 1 then
+                s.grid_x = s.grid_x - 1
+                s.pos.x = s.pos.x - TILESIZE
+            end
+        end
     end
 
-end
-
-function Ship:keyreleased(key)
-    local s = self --Ship
-
-    --Movement
-    if key == 'w' or key == 'a' or key == 's' or key == 'd' or
-       key == 'up' or key == 'left' or key == 'down' or key == 'right' then
-          lfuncs.updateSpeed(s)
+    if key == "z" or key == "space" then
+        s:shoot()
     end
 
 end
@@ -69,11 +75,23 @@ end
 --Ship shoots a green bullet to the right, or if ship is pulsing, shoots a big bullet
 function Ship:shoot()
     local s = self
+    local max = 20 --Max size for bullets
 
     if not s.pulsing then
+        s.chain_bonus = 0
         Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.green())
     else
-        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 20, Color.blue())
+        s.chain_bonus = s.chain_bonus + 1 --Increment chain
+        local size = math.min(5+3*s.chain_bonus, max) --Cap for bullet size
+
+        --If bullet is at cap, change bullet color
+        if size >= max then
+            local c = Color.red()
+        else
+            local c = Color.blue()
+        end
+
+        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5+2*s.chain_bonus, c)
     end
 
 end
@@ -82,19 +100,21 @@ function Ship:pulse()
     local s = self
 
     s.pulsing = true --Set pulsing flag
-    s.r = s.pulse_r  --Change radius of ship
 
-    --"Pulse" efect on radius
-    local handle = MAIN_TIMER.tween(.1, s, {r = s.default_r}, 'in-linear',
-        function()
-            s.pulsing = false
-        end)
-
-    --Insert tween handle on ship
+    --Remove previous tween handle on ship
     if s.handles["pulse"] then
         MAIN_TIMER.cancel(s.handles["pulse"])
     end
-    s.handles["pulse"] = handle
+
+    --"Pulse" efect on radius
+    s.handles["pulse"] = MAIN_TIMER.tween(PULSE_TIME/2, s, {r = s.pulse_r}, 'in-linear',
+        function()
+            s.handles["pulse"] = MAIN_TIMER.tween(PULSE_TIME/2, s, {r = s.default_r}, 'in-linear',
+            function()
+                s.pulsing = false
+            end)
+
+        end)
 
 
 end
@@ -103,58 +123,13 @@ end
 
 --LOCAL FUNCTIONS--
 
-function lfuncs.updateSpeed(self)
-    local s = self --Ship
-    local sp = s.speedv --Speed Value
-
-    s.speed = Vector(0,0)
-    --Movement
-    if love.keyboard.isDown 'w' or love.keyboard.isDown 'up' then --move up
-        s.speed = s.speed + Vector(0,-1)
-    end
-    if love.keyboard.isDown 'a' or love.keyboard.isDown 'left' then --move left
-        s.speed = s.speed + Vector(-1,0)
-    end
-    if love.keyboard.isDown 's' or love.keyboard.isDown 'down' then --move down
-        s.speed = s.speed + Vector(0,1)
-    end
-    if love.keyboard.isDown'd' or love.keyboard.isDown 'right' then --move right
-        s.speed = s.speed + Vector(1,0)
-    end
-
-    s.speed = s.speed:normalized() * sp
-
-end
-
---Checks if ship has leaved the game screen (even if partially) and returns correct position
-function lfuncs.isOutside(s)
-    local x, y
-
-    x, y = s.pos.x, s.pos.y
-
-    --X position
-    if s.pos.x - s.r <= 0 then
-        x = s.r
-    elseif s.pos.x + s.r >= WIN_W then
-        x = WIN_W - s.r
-    end
-
-    --Y position
-    if s.pos.y - s.r <= 0 then
-        y = s.r
-    elseif s.pos.y + s.r >= WIN_H then
-        y = WIN_H - s.r
-    end
-
-    return x,y
-end
 
 
 ------------------
 --USEFUL FUNCTIONS
 ------------------
 
---Create a ship in the (x,y) position, direction dir, color c and subtype st
+--Create a ship in the (x,y) position
 function funcs.create(x, y)
     local ship
 
