@@ -1,6 +1,7 @@
 local Util = require "util"
 local Draw = require "draw"
 local Ship = require "classes.ship"
+local Enemy = require "classes.enemy"
 local Background = require "classes.background"
 
 --MODULE FOR THE GAMESTATE: GAME--
@@ -14,9 +15,21 @@ local pulsed --If ship already pulsed
 --STATE FUNCTIONS--
 
 function state:enter()
+
+	--Initialize variables for the game
 	pulsed = false
-	Background.create()
+	BPM_C = 0
+	MUSIC_BEAT = 0
+
+	Background.create() --Create background and grid
+
+
 	Ship.create(1,1)
+
+	Enemy.create(15,1,1,10,{2,3,4,4.5,5,6,7,7.1,7.2,7.3,7.4,7.5,8,8.5,9})
+	Enemy.create(14,2,2,10,{2.5,3.5,4.5,5,5.5,6.5,7.5,8.1,8.2,8.3,8.4,8.5,9})
+
+
 end
 
 function state:leave()
@@ -41,6 +54,9 @@ function state:update(dt)
 
 		pulsed = false
 	end
+
+	--Update music beat tracker
+	MUSIC_BEAT = MUSIC_BEAT + (dt*60/BPM_M)
 
 	Util.updateDrawTable(dt)
 

@@ -12,6 +12,7 @@ require "classes.primitive"
 require "classes.color"
 require "classes.ship"
 require "classes.bullet"
+require "classes.enemy"
 
 --MY MODULES
 Util      = require "util"

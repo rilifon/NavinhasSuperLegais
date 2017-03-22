@@ -23,6 +23,8 @@ function setup.config()
     BPM_M = 128 --Beats per minute of current BGM
     BPM_C = 0   --BPM counter
 
+    MUSIC_BEAT = 0 --Tracks which part of the bgm is playing (in beats)
+
     PULSE_TIME = .2 --Time for ship to start and finish a pulse
 
     TILESIZE = 80

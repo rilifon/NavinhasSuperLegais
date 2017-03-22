@@ -18,8 +18,8 @@ Ship = Class{
 
         self.chain_bonus = 0 --Chain bonus of hitting on the beat
 
-        self.grid_x = _x or 1
-        self.grid_y = _y or 1
+        self.grid_x = _x or 1 --X position of the ship on the grid
+        self.grid_y = _y or 1 --Y position of the ship on the grid
 
         local x = (self.grid_x-1)*TILESIZE + TILESIZE/2
         local start_grid = (WIN_H - GRID_ROWS*TILESIZE)/2 --Start y position of grid on map
@@ -28,7 +28,7 @@ Ship = Class{
         --Creating circle shape
         CIRC.init(self, x, y, self.default_r, Color.purple())
 
-        self.type = "Ship"
+        self.type = "ship"
     end
 }
 
@@ -79,19 +79,20 @@ function Ship:shoot()
 
     if not s.pulsing then
         s.chain_bonus = 0
-        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.green())
+        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.black())
     else
         s.chain_bonus = s.chain_bonus + 1 --Increment chain
         local size = math.min(5+3*s.chain_bonus, max) --Cap for bullet size
 
         --If bullet is at cap, change bullet color
+        local c
         if size >= max then
-            local c = Color.red()
+            c = Color.red()
         else
-            local c = Color.blue()
+            c = Color.blue()
         end
 
-        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5+2*s.chain_bonus, c)
+        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), size, c)
     end
 
 end
