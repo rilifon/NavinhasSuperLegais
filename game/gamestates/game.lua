@@ -93,6 +93,7 @@ function checkCollisions()
 	local s = Util.findId("player")
 	local enemy_b = Util.findSbTp("enemy_bullet")
 
+	--Check collision between enemy bullets and the ship
 	if enemy_b and s then
 		for bullet in pairs(enemy_b) do
 			if bullet:collides("player") then
