@@ -25,7 +25,7 @@ function setup.config()
 
     MUSIC_BEAT = 0 --Tracks which part of the bgm is playing (in beats)
 
-    PULSE_TIME = .2 --Time for ship to start and finish a pulse
+    PULSE_TIME = .4 --Time for ship to start and finish a pulse
 
     TILESIZE = 80
     GRID_ROWS = 3  --How many rows the grid has
@@ -57,6 +57,17 @@ function setup.config()
     --SHADERS--
 
     --AUDIO--
+    --Tracks
+    BGM_MAIN = love.audio.newSource("assets/bgm/mus_jogodenave_loop.wav")
+    --SFX
+    SFX_ENEMY_SHOT = love.audio.newSource("assets/sfx/sfx_enemy_shot.mp3")
+    SFX_HITENEMY =  love.audio.newSource({
+                    "assets/sfx/sfx_hitenemy_var01.mp3",
+                    "assets/sfx/sfx_hitenemy_var02.mp3",
+                    "assets/sfx/sfx_hitenemy_var03.mp3",
+                    "assets/sfx/sfx_hitenemy_var04.mp3",
+                  })
+    SFX_PLAYER_SHOT = love.audio.newSource("assets/sfx/sfx_player_shot.mp3")
 
 end
 

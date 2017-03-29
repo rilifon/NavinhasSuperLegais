@@ -49,10 +49,15 @@ function Bullet:update(dt)
     end
 end
 
---When an enemy bullet hits the player, just destroy the bullet
+--When an enemy bullet hits the player, destroy the bullet and kill the player
 function Bullet:hitPlayer()
 
+    --Destroy bullet
     self.death = true
+
+    --Destroy ship
+    local s = Util.findId("player")
+    if s then s.death = true end
 
 end
 

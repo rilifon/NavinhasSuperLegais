@@ -3,6 +3,7 @@ local Draw = require "draw"
 local Ship = require "classes.ship"
 local Enemy = require "classes.enemy"
 local Background = require "classes.background"
+local Bgm = require "classes.bgm"
 
 --MODULE FOR THE GAMESTATE: GAME--
 
@@ -25,14 +26,17 @@ function state:enter()
 	BPM_C = 0
 	MUSIC_BEAT = 0
 
+	Bgm.create(BGM_MAIN, 2) --Create background music object with start time
+
 	Background.create() --Create background and grid
 
 
-	Ship.create(1,1)
+	Ship.create(1,1) --Create ship
 
+	--Create enemies
 	Enemy.create(15,1,1,20,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(15,2,2,20,{6,7,8,9,11,13,15,17,20,21})
-	Enemy.create(13,3,0,22,{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17})
+	--Enemy.create(15,2,2,20,{6,7,8,9,11,13,15,17,20,21})
+	--Enemy.create(13,3,0,22,{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17})
 
 
 end
@@ -64,6 +68,8 @@ function state:update(dt)
 	MUSIC_BEAT = MUSIC_BEAT + (dt*BPM_M/60)
 
 	Util.updateDrawTable(dt)
+
+	Util.updateId(dt, "cur_bgm")
 
 	Util.updateTimers(dt)
 

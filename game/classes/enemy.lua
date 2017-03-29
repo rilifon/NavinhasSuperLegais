@@ -75,8 +75,8 @@ end
 
 --Enemy shoots bullet to the left
 function Enemy:shoot()
+    SFX_ENEMY_SHOT:play()
     local s = self
-
     local b = Bul.create(s.pos.x + s.r, s.pos.y, Vector(-1,0), 5, Color.black(), "enemy_bullet")
 
 end

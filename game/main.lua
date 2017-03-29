@@ -1,3 +1,6 @@
+--EXTRA LIBS
+require "extra_libs.slam"
+
 --HUMP STUFF
 Gamestate = require "hump.gamestate"
 Timer     = require "hump.timer"
@@ -7,12 +10,12 @@ Vector    = require "hump.vector"
 
 
 --CLASSES
-
 require "classes.primitive"
 require "classes.color"
 require "classes.ship"
 require "classes.bullet"
 require "classes.enemy"
+require "classes.bgm"
 
 --MY MODULES
 Util      = require "util"
