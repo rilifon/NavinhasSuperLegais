@@ -31,7 +31,7 @@ function state:enter()
 	Background.create() --Create background and grid
 
 
-	Ship.create(1,1) --Create ship
+	Ship.create(2,1) --Create ship
 
 	--Create enemies
 	Enemy.create(15,1,1,20,{2,3,4,5,10,12,14,16,20,21})
@@ -96,15 +96,29 @@ end
 --LOCAL FUNCTIONS
 
 function checkCollisions()
-	local s = Util.findId("player")
-	local enemy_b = Util.findSbTp("enemy_bullet")
 
 	--Check collision between enemy bullets and the ship
+	local s = Util.findId("player")
+	local enemy_b = Util.findSbTp("enemy_bullet")
 	if enemy_b and s then
 		for bullet in pairs(enemy_b) do
-			if bullet:collides("player") then
+			if bullet:collides(s) then
 				s:getHit()
 				bullet:hitPlayer()
+			end
+		end
+	end
+
+	--Check collision between player bullets and enemies
+	local enemies = Util.findSbTp("enemies")
+	local player_b = Util.findSbTp("player_bullet")
+	if player_b and enemies then
+		for bullet in pairs(player_b) do
+			for enemy in pairs(enemies) do
+				if bullet:collides(enemy) then
+					enemy:getHit()
+					bullet:hitEnemy()
+				end
 			end
 		end
 	end

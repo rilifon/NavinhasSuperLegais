@@ -39,8 +39,10 @@ function Ship:update(dt)
 end
 
 function Ship:getHit()
-    SFX_HITENEMY:play()
-    print "got hit"
+
+    --Destroy ship
+    self.death = true
+
 end
 
 function Ship:keypressed(key)
@@ -85,7 +87,7 @@ function Ship:shoot()
 
     if not s.pulsing then
         s.chain_bonus = 0
-        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.black())
+        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.black(), "player_bullet")
     else
         s.chain_bonus = s.chain_bonus + 1 --Increment chain
         local size = math.min(5+3*s.chain_bonus, max) --Cap for bullet size
@@ -126,11 +128,7 @@ function Ship:pulse()
 
 end
 
-
-
 --LOCAL FUNCTIONS--
-
-
 
 ------------------
 --USEFUL FUNCTIONS

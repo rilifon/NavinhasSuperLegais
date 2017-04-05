@@ -81,6 +81,17 @@ function Enemy:shoot()
 
 end
 
+--If enemy gets hit, destroy him
+function Enemy:getHit()
+
+    --Play sfx
+    SFX_HITENEMY:play()
+
+    --Destroy enemy
+    self.death = true
+
+end
+
 ------------------
 --USEFUL FUNCTIONS
 ------------------

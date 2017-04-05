@@ -25,10 +25,10 @@ function setup.config()
 
     MUSIC_BEAT = 0 --Tracks which part of the bgm is playing (in beats)
 
-    PULSE_TIME = .4 --Time for ship to start and finish a pulse
+    PULSE_TIME = .2 --Time for ship to start and finish a pulse
 
     TILESIZE = 80
-    GRID_ROWS = 3  --How many rows the grid has
+    GRID_ROWS = 1  --How many rows the grid has
     GRID_COLS = 15 --How many tiles per row
 
     --TIMERS--

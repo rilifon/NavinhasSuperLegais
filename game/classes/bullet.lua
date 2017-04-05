@@ -49,34 +49,30 @@ function Bullet:update(dt)
     end
 end
 
---When an enemy bullet hits the player, destroy the bullet and kill the player
+--When an enemy bullet hits the player, destroy the bullet
 function Bullet:hitPlayer()
 
     --Destroy bullet
     self.death = true
 
-    --Destroy ship
-    local s = Util.findId("player")
-    if s then s.death = true end
+end
+
+--When a player bullet hits an enemy, destroy the bullet
+function Bullet:hitEnemy()
+
+    --Destroy bullet
+    self.death = true
 
 end
 
 --Check collision of bullet with something
-function Bullet:collides(mode)
+function Bullet:collides(target)
+    local bul = self
+    local dx = bul.pos.x - target.pos.x
+    local dy = bul.pos.y - target.pos.y
+    local dr = bul.r + target.r
 
-    if mode == "player" then
-        local s = Util.findId("player")
-        if s then
-            local bul = self
-            local dx = bul.pos.x - s.pos.x
-            local dy = bul.pos.y - s.pos.y
-            local dr = bul.r + s.r
-
-            return (dx*dx + dy*dy) < dr*dr
-        end
-    end
-
-    return false
+    return (dx*dx + dy*dy) < dr*dr
 end
 
 
