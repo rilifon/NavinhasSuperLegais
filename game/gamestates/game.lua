@@ -34,7 +34,8 @@ function state:enter()
 	Ship.create(2,1) --Create ship
 
 	--Create enemies
-	Enemy.create(15,1,1,20,{2,3,4,5,10,12,14,16,20,21})
+	--(x, y, enter_time, leave_time, shoot_pattern, id)
+	Enemy.create(1000,60,1,20,{2,3,4,5,10,12,14,16,20,21})
 	--Enemy.create(15,2,2,20,{6,7,8,9,11,13,15,17,20,21})
 	--Enemy.create(13,3,0,22,{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17})
 

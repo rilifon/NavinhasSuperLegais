@@ -10,8 +10,8 @@ Enemy = Class{
     __includes = {CIRC},
     init = function(self, _x, _y, _enter_time, _leave_time,_shoot_pattern)
 
-        self.grid_x = _x --X position of the enemy on the grid
-        self.grid_y = _y --Y position of the enemy on the grid
+        self._x = _x --X position of the enemy
+        self._y = _y --Y position of the enemy
 
         self.enter_time = _enter_time --Which beat the enemy enters the screen
         self.entered = false --If enemy has entered the screen
@@ -21,12 +21,12 @@ Enemy = Class{
         self.shoot_pattern = _shoot_pattern or {} --Which beats the enemy shoots
         self.shoot_indicator = 1 --Indicates which part of the shoot_pattern the enemy is
 
-        local x = (self.grid_x-1)*TILESIZE + TILESIZE/2
-        local start_grid = (WIN_H - GRID_ROWS*TILESIZE)/2 --Start y position of grid on map
-        local y = start_grid + (self.grid_y-1)*TILESIZE + TILESIZE/2
+        local x = self._x
+        local y = self._y
+		local radius = 50
 
         --Creating circle shape
-        CIRC.init(self, x, y, TILESIZE/3.5, Color.red())
+        CIRC.init(self, x, y, 40, Color.red())
 
         self.type = "enemy"
     end
