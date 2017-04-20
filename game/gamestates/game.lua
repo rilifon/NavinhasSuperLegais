@@ -28,17 +28,13 @@ function state:enter()
 
 	Bgm.create(BGM_MAIN, 2) --Create background music object with start time
 
-	Background.create() --Create background and grid
+	Background.create() --Create background
 
-
-	Ship.create(2,1) --Create ship
+	Ship.create(100,100) --Create ship
 
 	--Create enemies
 	--(x, y, enter_time, leave_time, shoot_pattern, id)
 	Enemy.create(1000,60,1,20,{2,3,4,5,10,12,14,16,20,21})
-	--Enemy.create(15,2,2,20,{6,7,8,9,11,13,15,17,20,21})
-	--Enemy.create(13,3,0,22,{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17})
-
 
 end
 
@@ -91,6 +87,13 @@ function state:keypressed(key)
 
 	if s then s:keypressed(key) end --Handles keypressing for player
     Util.defaultKeyPressed(key)    --Handles keypressing for general stuff
+
+end
+
+function state:mousepressed(...)
+	local s = Util.findId("player")
+
+	if s then s:mousepressed(...) end --Handles keypressing for player
 
 end
 

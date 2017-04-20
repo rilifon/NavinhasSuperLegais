@@ -31,6 +31,8 @@ function setup.config()
     GRID_ROWS = 1  --How many rows the grid has
     GRID_COLS = 15 --How many tiles per row
 
+    WINDOW_DIVISION = 2*WIN_W/3
+
     --TIMERS--
     MAIN_TIMER = Timer.new()  --General Timer
 

@@ -12,18 +12,14 @@ Ship = Class{
     __includes = {CIRC},
     init = function(self, _x, _y)
 
-        self.default_r = TILESIZE/3 --Default radius size of ship
-        self.pulse_r = TILESIZE/4 --Radius when ship is pulsing
+        self.default_r = 30 --Default radius size of ship
+        self.pulse_r = 20 --Radius when ship is pulsing
         self.pulsing = false --If ship is pulsing
 
         self.chain_bonus = 0 --Chain bonus of hitting on the beat
 
-        self.grid_x = _x or 1 --X position of the ship on the grid
-        self.grid_y = _y or 1 --Y position of the ship on the grid
-
-        local x = (self.grid_x-1)*TILESIZE + TILESIZE/2
-        local start_grid = (WIN_H - GRID_ROWS*TILESIZE)/2 --Start y position of grid on map
-        local y = start_grid + (self.grid_y-1)*TILESIZE + TILESIZE/2
+        local x = _x or 50 --X position of the ship on the map
+        local y = _y or 50 --Y position of the ship on the map
 
         --Creating circle shape
         CIRC.init(self, x, y, self.default_r, Color.purple())
@@ -31,6 +27,25 @@ Ship = Class{
         self.type = "ship"
     end
 }
+
+--Draws the ship
+function Ship:draw()
+    local s
+
+    s = self
+
+    --Draw circle
+    Color.set(s.color)
+    love.graphics.circle("fill", s.pos.x, s.pos.y, s.r)
+
+    --Draw outline
+    love.graphics.setLineWidth(4)
+    local color = s.color
+    Color.set(s.color)
+    love.graphics.circle("line", s.pos.x, s.pos.y, s.r)
+
+
+end
 
 
 function Ship:update(dt)
@@ -48,32 +63,21 @@ end
 function Ship:keypressed(key)
     local s = self --Ship
 
-    --Movement
-    if s.pulsing then
-        if key == 'w' or key == 'up' then
-            if s.grid_y > 1 then
-                s.grid_y = s.grid_y - 1
-                s.pos.y = s.pos.y - TILESIZE
-            end
-        elseif key == 'd' or key == 'right' then
-            if s.grid_x <  GRID_COLS then
-                s.grid_x = s.grid_x + 1
-                s.pos.x = s.pos.x + TILESIZE
-            end
-        elseif key == 's' or key == 'down' then
-            if s.grid_y <  GRID_ROWS then
-                s.grid_y = s.grid_y + 1
-                s.pos.y = s.pos.y + TILESIZE
-            end
-        elseif key == 'a' or key == 'left' then
-            if s.grid_x > 1 then
-                s.grid_x = s.grid_x - 1
-                s.pos.x = s.pos.x - TILESIZE
-            end
-        end
+    --Shoot a bullet
+    if key == "z" or key == "space" then
+        s:shoot()
     end
 
-    if key == "z" or key == "space" then
+end
+
+function Ship:mousepressed(x, y, button, istouch)
+    local s = self --Ship
+
+    --Move ship
+    if x <= WINDOW_DIVISION and (button == 1 or istouch) then
+        s.pos.x, s.pos.y = x, y
+    --Shoot a bullet
+    elseif x > WINDOW_DIVISION and (button == 1 or istouch) then
         s:shoot()
     end
 
