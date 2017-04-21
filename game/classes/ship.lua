@@ -10,16 +10,21 @@ local lfuncs = {} --local functions
 
 Ship = Class{
     __includes = {CIRC},
-    init = function(self, _x, _y)
+    init = function(self, _y)
 
         self.default_r = 30 --Default radius size of ship
         self.pulse_r = 20 --Radius when ship is pulsing
         self.pulsing = false --If ship is pulsing
 
+        self.margin_distance = 80 --Minimum distance the ship can be away from the edge
+
         self.chain_bonus = 0 --Chain bonus of hitting on the beat
 
-        local x = _x or 50 --X position of the ship on the map
-        local y = _y or 50 --Y position of the ship on the map
+        local x = 180 --X position of the ship on the map, that is fixed
+        local y = _y or self.margin_distance --Y position of the ship on the map
+        --Fix ship distance so it doesn't leave the screen
+        y = math.max(y, self.margin_distance)
+        y = math.min(y, WIN_H - self.margin_distance)
 
         --Creating circle shape
         CIRC.init(self, x, y, self.default_r, Color.purple())
@@ -40,8 +45,9 @@ function Ship:draw()
 
     --Draw outline
     love.graphics.setLineWidth(4)
-    local color = s.color
-    Color.set(s.color)
+    local color = Color.copy(s.color)
+    color.r = color.r/2
+    Color.set(color)
     love.graphics.circle("line", s.pos.x, s.pos.y, s.r)
 
 
@@ -75,7 +81,9 @@ function Ship:mousepressed(x, y, button, istouch)
 
     --Move ship
     if x <= WINDOW_DIVISION and (button == 1 or istouch) then
-        s.pos.x, s.pos.y = x, y
+        --Fix ship distance so it doesn't leave the screen
+        s.pos.y = math.max(y, s.margin_distance)
+        s.pos.y = math.min(s.pos.y, WIN_H - s.margin_distance)
     --Shoot a bullet
     elseif x > WINDOW_DIVISION and (button == 1 or istouch) then
         s:shoot()

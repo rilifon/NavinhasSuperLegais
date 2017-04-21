@@ -23,10 +23,27 @@ Background = Class{
 function Background:draw()
 
     if self.mode == "game" then
-        --Draw the background
-        local bg_color = RGB(66,134,244)
+
+        --Draw the background right side
+        local bg_color = RGB(185, 66, 237)
         Color.set(bg_color)
-        love.graphics.rectangle("fill", 0, 0, WIN_W, WIN_H)
+        love.graphics.rectangle("fill", WINDOW_DIVISION, 0, WIN_W - WINDOW_DIVISION, WIN_H)
+
+        --Draw the background left side
+        bg_color = RGB(66,134,244)
+        Color.set(bg_color)
+        love.graphics.rectangle("fill", 0, 0, WINDOW_DIVISION, WIN_H)
+
+        --Draw ship "possible-positions" line
+        s = Util.findId("player")
+        if s then
+            love.graphics.setLineWidth(3)
+            local color = Color.copy(bg_color)
+            color.r, color.g, color.b = 1.3*color.r, 1.3*color.g, 1.3*color.b --Make it the color of the bg but lighter
+            Color.set(color)
+            love.graphics.line(s.pos.x, s.margin_distance, s.pos.x, WIN_H - s.margin_distance)
+        end
+
     end
 
 end
