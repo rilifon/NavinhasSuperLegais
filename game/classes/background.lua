@@ -21,28 +21,36 @@ Background = Class{
 --CLASS FUNCTIONS--
 
 function Background:draw()
+    local color --Temporary variable for color
 
     if self.mode == "game" then
 
-        --Draw the background right side
-        local bg_color = RGB(185, 66, 237)
-        Color.set(bg_color)
-        love.graphics.rectangle("fill", WINDOW_DIVISION, 0, WIN_W - WINDOW_DIVISION, WIN_H)
+        --Draw the background image
+        Color.set(Color.white())
+        local scale = WIN_H/IMG_BG:getHeight() --Scale bg to fit on screen
+        --Draws the background image repeatedly until it fills the screen
+        local x = 0
+        while (x < WIN_W) do
+            love.graphics.draw(IMG_BG, x, 0, 0, scale, scale)
+            x = x + IMG_BG:getWidth()*scale
+        end
 
-        --Draw the background left side
-        bg_color = RGB(66,134,244)
-        Color.set(bg_color)
-        love.graphics.rectangle("fill", 0, 0, WINDOW_DIVISION, WIN_H)
 
         --Draw ship "possible-positions" line
         s = Util.findId("player")
         if s then
             love.graphics.setLineWidth(3)
-            local color = Color.copy(bg_color)
-            color.r, color.g, color.b = 1.3*color.r, 1.3*color.g, 1.3*color.b --Make it the color of the bg but lighter
+            local color = RGB(247, 116, 164,150)
             Color.set(color)
-            love.graphics.line(s.pos.x, s.margin_distance, s.pos.x, WIN_H - s.margin_distance)
+            local adjust = 25 --Adjust on line x coordinate so its alligned with the player body
+            love.graphics.line(s.pos.x + adjust, s.margin_distance, s.pos.x + adjust, WIN_H - s.margin_distance)
         end
+
+        --Draw window division for moving/shooting with the ship when touching
+        love.graphics.setLineWidth(3)
+        local color = RGB(247, 116, 164,150)
+        Color.set(color)
+        love.graphics.line(WINDOW_DIVISION, 0, WINDOW_DIVISION, WIN_H)
 
     end
 

@@ -56,9 +56,10 @@ function Enemy:draw()
 
     if not s.entered then return end
 
-    --Draw the enemy
-    Color.set(s.color)
-    love.graphics.circle(s.mode, s.pos.x, s.pos.y, s.r)
+    --Draw enemy
+    local w, h = IMG_ENEMY1:getDimensions()
+    Color.set(Color.white())
+    love.graphics.draw(IMG_ENEMY1, s.pos.x - w/2, s.pos.y - h/2)
 
 end
 
@@ -72,7 +73,7 @@ end
 function Enemy:shoot()
     SFX_ENEMY_SHOT:play()
     local s = self
-    local b = Bul.create(s.pos.x + s.r, s.pos.y, Vector(-1,0), 5, Color.black(), "enemy_bullet")
+    local b = Bul.create(s.pos.x + s.r, s.pos.y, Vector(-1,0), 5, Color.white(), "enemy_bullet")
 
 end
 

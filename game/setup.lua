@@ -11,6 +11,23 @@ function setup.config()
 
     --IMAGES--
 
+    print("Loading Images...")
+    --Player image
+    IMG_PLAYER = love.graphics.newImage("assets/images/girl01.png")
+
+    --Enemies Images
+    IMG_ENEMY1 = love.graphics.newImage("assets/images/enemy01_01.png")
+
+    --Background Images
+    IMG_BG = love.graphics.newImage("assets/images/bg_resized.png")
+    IMG_CLOUD = love.graphics.newImage("assets/images/cloud01.png")
+    IMG_PARALAX1 = love.graphics.newImage("assets/images/paralax_01.png")
+    IMG_PARALAX2 = love.graphics.newImage("assets/images/paralax_02.png")
+
+    --Shot Image
+    IMG_SHOT1 = love.graphics.newImage("assets/images/shot_small01.png")
+    print("Finished Loading Images!")
+
     --RANDOM SEED--
     love.math.setRandomSeed( os.time() )
 

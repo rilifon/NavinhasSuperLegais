@@ -20,6 +20,8 @@ Ship = Class{
 
         self.chain_bonus = 0 --Chain bonus of hitting on the beat
 
+        self.move_duration = .1 --Duration for ship to move to a target position
+
         local x = 180 --X position of the ship on the map, that is fixed
         local y = _y or self.margin_distance --Y position of the ship on the map
         --Fix ship distance so it doesn't leave the screen
@@ -39,17 +41,10 @@ function Ship:draw()
 
     s = self
 
-    --Draw circle
-    Color.set(s.color)
-    love.graphics.circle("fill", s.pos.x, s.pos.y, s.r)
-
-    --Draw outline
-    love.graphics.setLineWidth(4)
-    local color = Color.copy(s.color)
-    color.r = color.r/2
-    Color.set(color)
-    love.graphics.circle("line", s.pos.x, s.pos.y, s.r)
-
+    --Draw player
+    local w, h = IMG_PLAYER:getDimensions()
+    Color.set(Color.white())
+    love.graphics.draw(IMG_PLAYER, s.pos.x - w/2, s.pos.y - h/2)
 
 end
 
@@ -81,13 +76,24 @@ function Ship:mousepressed(x, y, button, istouch)
 
     --Move ship
     if x <= WINDOW_DIVISION and (button == 1 or istouch) then
-        --Fix ship distance so it doesn't leave the screen
-        s.pos.y = math.max(y, s.margin_distance)
-        s.pos.y = math.min(s.pos.y, WIN_H - s.margin_distance)
+        --Fix target y value so it doesn't leave the screen
+        y = math.max(y, s.margin_distance)
+        y = math.min(y, WIN_H - s.margin_distance)
+        --Start ship movement
+        s:move(y)
     --Shoot a bullet
     elseif x > WINDOW_DIVISION and (button == 1 or istouch) then
         s:shoot()
     end
+
+end
+
+--Tweens ships y coordinate to given value
+function Ship:move(y)
+    local s = self
+
+    if s.handles["moving"] then MAIN_TIMER:cancel(s.handles["moving"]) end
+    s.handles["moving"] = MAIN_TIMER.tween(s.move_duration, s.pos, {y = y}, 'out-quad')
 
 end
 
@@ -99,7 +105,7 @@ function Ship:shoot()
 
     if not s.pulsing then
         s.chain_bonus = 0
-        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.black(), "player_bullet")
+        Bul.create(s.pos.x + s.r, s.pos.y, Vector(1,0), 5, Color.white(), "player_bullet")
     else
         s.chain_bonus = s.chain_bonus + 1 --Increment chain
         local size = math.min(5+3*s.chain_bonus, max) --Cap for bullet size
