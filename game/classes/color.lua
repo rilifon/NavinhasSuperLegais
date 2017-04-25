@@ -26,8 +26,12 @@ function rgb.rgba(c) return c.r, c.g, c.b, c.a end
 --Return alpha level of given color c
 function rgb.a(c) return c.a end
 
---Copy colors from a color c2 to a color c1
-function rgb.copy(c1, c2)  c1.r, c1.g, c1.b, c1.a = c2.r, c2.g, c2.b, c2.a end
+--Copy colors from a color c2 to a color c1, or if there isn't a c2, just returns a new object equal to c1
+function rgb.copy(c1, c2)
+    if not c2 then return RGB(c1.r, c1.g, c1.b, c1.a) end
+    c1.r, c1.g, c1.b, c1.a = c2.r, c2.g, c2.b, c2.a
+    return c1
+end
 
 --Set the color used for drawing
 function rgb.set(c) love.graphics.setColor(c.r, c.g, c.b, c.a) end

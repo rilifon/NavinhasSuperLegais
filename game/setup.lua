@@ -27,9 +27,7 @@ function setup.config()
 
     PULSE_TIME = .2 --Time for ship to start and finish a pulse
 
-    TILESIZE = 80
-    GRID_ROWS = 1  --How many rows the grid has
-    GRID_COLS = 15 --How many tiles per row
+    WINDOW_DIVISION = 2*WIN_W/3 --Division where window touch is reserved for player movement (left) or shooting (right)
 
     --TIMERS--
     MAIN_TIMER = Timer.new()  --General Timer
