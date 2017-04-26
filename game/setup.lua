@@ -82,7 +82,23 @@ function setup.config()
                     "assets/sfx/sfx_hitenemy_var03.mp3",
                     "assets/sfx/sfx_hitenemy_var04.mp3",
                   })
-    SFX_PLAYER_SHOT = love.audio.newSource("assets/sfx/sfx_player_shot.mp3")
+    SFX_PLAYER_SHOT = love.audio.newSource({
+        "assets/sfx/player_shot_sfx/sfx_player_shot1.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot2.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot3.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot4.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot5.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot6.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot7.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot8.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot9.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot10.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot11.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot12.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot13.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot14.mp3",
+        "assets/sfx/player_shot_sfx/sfx_player_shot15.mp3",
+        })
 
 end
 
