@@ -26,8 +26,8 @@ function state:enter()
 	BPM_C = 0
 	MUSIC_BEAT = 0
 
-	Bgm.create(BGM_MAIN, 2) --Create background music object with start time
-	Bgm.create(SFX_AMBIENCE, 0) --Create background music object with start time
+	Bgm.create(BGM_MAIN, 2, "cur_bgm") --Create background music object with start time
+	Bgm.create(SFX_AMBIENCE, 0, "ambience_sfx")
 
 	Background.create() --Create background
 
@@ -74,6 +74,7 @@ function state:update(dt)
 	Util.updateDrawTable(dt)
 
 	Util.updateId(dt, "cur_bgm")
+	Util.updateId(dt, "ambience_sfx")
 
 	Util.updateTimers(dt)
 
