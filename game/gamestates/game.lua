@@ -103,6 +103,18 @@ function state:mousepressed(...)
 
 end
 
+function state:touchpressed(...)
+	local s = Util.findId("player")
+
+	if s then s:touchpressed(...) end --Handles touch for player
+end
+
+function state:touchmoved(...)
+	local s = Util.findId("player")
+
+	if s then s:touchmoved(...) end --Handles moving touch for player
+end
+
 --LOCAL FUNCTIONS
 
 function checkCollisions()

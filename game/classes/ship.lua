@@ -83,18 +83,42 @@ end
 function Ship:mousepressed(x, y, button, istouch)
     local s = self --Ship
 
+	if istouch then
+		return
+	end
     --Move ship
-    if x <= WINDOW_DIVISION and (button == 1 or istouch) then
+    if x <= WINDOW_DIVISION and (button == 1) then
         --Fix target y value so it doesn't leave the screen
         y = math.max(y, s.margin_distance)
         y = math.min(y, WIN_H - s.margin_distance)
         --Start ship movement
         s:move(y)
     --Shoot a bullet
-    elseif x > WINDOW_DIVISION and (button == 1 or istouch) then
+    elseif x > WINDOW_DIVISION and (button == 1) then
         s:shoot()
     end
 
+end
+
+function Ship:touchpressed(id, x, y, dx, dy, pressure )
+    local s = self --Ship
+
+    --Shoot a bullet
+    if x > WINDOW_DIVISION then
+        s:shoot()
+    end
+
+end
+
+function Ship:touchmoved( id, x, y, dx, dy, pressure )
+    --Move ship
+    if x <= WINDOW_DIVISION then
+        --Fix target y value so it doesn't leave the screen
+        y = math.max(y, s.margin_distance)
+        y = math.min(y, WIN_H - s.margin_distance)
+        --Start ship movement
+        s:move(y)
+	end
 end
 
 --Tweens ships y coordinate to given value
