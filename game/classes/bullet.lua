@@ -62,9 +62,11 @@ function Bullet:draw()
     --Draw bullet image
     love.graphics.draw(IMG_SHOT1, b.pos.x - invert*w/2, b.pos.y - invert*h/2, 0, invert)
 
-    --DEBUG
-    Color.set(Color.blue())
-    love.graphics.circle("fill", b.col_pos.x, b.col_pos.y, b.col_r)
+    --DEBUG: Print collision circle
+    if DEBUG then
+        Color.set(Color.blue())
+        love.graphics.circle("fill", b.col_pos.x, b.col_pos.y, b.col_r)
+    end
 
 end
 

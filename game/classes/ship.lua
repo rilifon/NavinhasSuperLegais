@@ -50,9 +50,11 @@ function Ship:draw()
     Color.set(Color.white())
     love.graphics.draw(IMG_PLAYER, s.pos.x - w/2, s.pos.y - h/2)
 
-    --DEBUG
-    Color.set(Color.blue())
-    love.graphics.circle("fill", s.col_pos.x, s.col_pos.y, s.col_r)
+    --DEBUG: Print collision circle
+    if DEBUG then
+        Color.set(Color.blue())
+        love.graphics.circle("fill", s.col_pos.x, s.col_pos.y, s.col_r)
+    end
 
 end
 

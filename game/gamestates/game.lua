@@ -27,6 +27,7 @@ function state:enter()
 	MUSIC_BEAT = 0
 
 	Bgm.create(BGM_MAIN, 2) --Create background music object with start time
+	Bgm.create(SFX_AMBIENCE, 0) --Create background music object with start time
 
 	Background.create() --Create background
 
