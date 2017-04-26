@@ -7,8 +7,13 @@ local funcs = {}
 --ENEMY CLASS--
 --[[Has a time to enter and leave screen, and a shoot pattern. The shoot pattern must be in crescent order]]
 Enemy = Class{
-    __includes = {CIRC},
+    __includes = {ELEMENT, POS, CLR},
     init = function(self, _x, _y, _enter_time, _leave_time,_shoot_pattern)
+
+        --Creating circle shape
+        POS.init(self, _x, _y)
+        CLR.init(self, Color.white())
+        ELEMENT.init(self)
 
         self.enter_time = _enter_time --Which beat the enemy enters the screen
         self.entered = false --If enemy has entered the screen
@@ -18,10 +23,8 @@ Enemy = Class{
         self.shoot_pattern = _shoot_pattern or {} --Which beats the enemy shoots
         self.shoot_indicator = 1 --Indicates which part of the shoot_pattern the enemy is
 
-		local radius = 50
-
-        --Creating circle shape
-        CIRC.init(self, _x, _y, 40, Color.red())
+        self.col_pos = Vector(_x, _y)
+        self.col_r = 5
 
         self.type = "enemy"
     end
@@ -61,6 +64,10 @@ function Enemy:draw()
     Color.set(Color.white())
     love.graphics.draw(IMG_ENEMY1, s.pos.x - w/2, s.pos.y - h/2)
 
+    --DEBUG
+    Color.set(Color.blue())
+    love.graphics.circle("fill", s.col_pos.x, s.col_pos.y, s.col_r)
+
 end
 
 function Enemy:leave()
@@ -73,7 +80,7 @@ end
 function Enemy:shoot()
     SFX_ENEMY_SHOT:play()
     local s = self
-    local b = Bul.create(s.pos.x + s.r, s.pos.y, Vector(-1,0), 5, Color.white(), "enemy_bullet")
+    local b = Bul.create(s.pos.x, s.pos.y, Vector(-1,0), Color.white(), IMG_SHOT1, "enemy_bullet")
 
 end
 

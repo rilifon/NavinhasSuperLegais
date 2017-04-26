@@ -7,17 +7,29 @@ local bullet = {}
 
 --_dx and _dy are normalized
 Bullet = Class{
-    __includes = {CIRC},
-    init = function(self, _x, _y, _dx, _dy, _r, _c)
-        local r, color
+    __includes = {ELEMENT, POS, CLR},
+    init = function(self, _x, _y, _dx, _dy, _c, _image)
+        local color
 
-        r = _r --Radius of bullet
         color = _c or Color.blue()--Color of bullet
 
-        CIRC.init(self, _x, _y, r, color, "fill") --Set atributes
+        ELEMENT.init(self)
+        POS.init(self, _x, _y) --Set atributes
+        CLR.init(self, color)
 
-        self.speedv = 700 --Speed value
+        self.image = _image
+        self.w, self.h = self.image:getDimensions()
+
+        self.speedv = 400 --Speed value
         self.speed = Vector(_dx*self.speedv or 0, _dy*self.speedv or 0) --Speed vector
+
+        self.col_r = 5
+        if self.speed.x <= 0 then
+            self.col_pos = Vector(self.pos.x, self.pos.y)
+        else
+            self.col_pos = Vector(self.pos.x, self.pos.y)
+        end
+
 
         self.tp = "bullet" --Type of this class
     end
@@ -47,7 +59,12 @@ function Bullet:draw()
         invert = 1
     end
 
-    love.graphics.draw(IMG_SHOT1, b.pos.x - w/2, b.pos.y - h/2, 0, invert)
+    --Draw bullet image
+    love.graphics.draw(IMG_SHOT1, b.pos.x - invert*w/2, b.pos.y - invert*h/2, 0, invert)
+
+    --DEBUG
+    Color.set(Color.blue())
+    love.graphics.circle("fill", b.col_pos.x, b.col_pos.y, b.col_r)
 
 end
 
@@ -58,11 +75,18 @@ function Bullet:update(dt)
 
     b.pos = b.pos + dt*b.speed
 
+    --Update collision shape
+    if self.speed.x <= 0 then
+        self.col_pos = Vector(self.pos.x, self.pos.y)
+    else
+        self.col_pos = Vector(self.pos.x, self.pos.y)
+    end
+
     if not b.death and
-       (b.pos.x - b.r > WIN_W or
-       b.pos.x + b.r < 0 or
-       b.pos.y - b.r > WIN_H or
-       b.pos.y + b.r < 0) then
+       (b.pos.x > WIN_W or
+        b.pos.x + b.w  < 0 or
+        b.pos.y > WIN_H or
+        b.pos.y + b.h < 0) then
            b:kill()
     end
 end
@@ -86,9 +110,9 @@ end
 --Check collision of bullet with something
 function Bullet:collides(target)
     local bul = self
-    local dx = bul.pos.x - target.pos.x
-    local dy = bul.pos.y - target.pos.y
-    local dr = bul.r + target.r
+    local dx = bul.col_pos.x - target.col_pos.x
+    local dy = bul.col_pos.y - target.col_pos.y
+    local dr = bul.col_r + target.col_r
 
     return (dx*dx + dy*dy) < dr*dr
 end
@@ -97,11 +121,11 @@ end
 --UTILITY FUNCTIONS--
 
 --Create a bullet in the (x,y) position, direction dir, color c and subtype st
-function bullet.create(x, y, dir, r, c, st)
+function bullet.create(x, y, dir, c, image, st)
 
     st = st or "player_bullet"
 
-    local bullet = Bullet(x, y, dir.x, dir.y, r, c)
+    local bullet = Bullet(x, y, dir.x, dir.y, c, image)
     bullet:addElement(DRAW_TABLE.L1, st)
 
     return bullet
