@@ -15,6 +15,33 @@ Background = Class{
         self.mode = _mode or "game" --What mode the background is
 
         self.type = "background"
+
+        self.paralax_1_start = 0
+        self.paralax_1_image = IMG_PARALAX1
+        self.paralax_1_speed = 2000
+        print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
+        self.handles["paralax_1_every"] = MAIN_TIMER.every(self.paralax_1_image:getWidth()/self.paralax_1_speed,
+            function()
+                self.handles["paralax_1_tween"] = MAIN_TIMER.tween(self.paralax_1_image:getWidth()/self.paralax_1_speed, self, {paralax_1_start = -self.paralax_1_image:getWidth()}, "in-linear",
+                function()
+                    self.paralax_1_start = 0
+                end)
+            end)
+
+        self.paralax_2_start = 0
+        self.paralax_2_image = IMG_PARALAX2
+        self.paralax_2_speed = 1000
+        --Start paralax 2 repetitive tween
+        self.handles["paralax_2_every"] = MAIN_TIMER.every(self.paralax_2_image:getWidth()/self.paralax_2_speed,
+            function()
+                self.handles["paralax_2_tween"] = MAIN_TIMER.tween(self.paralax_2_image:getWidth()/self.paralax_2_speed, self, {paralax_2_start = -self.paralax_2_image:getWidth()},
+                "in-linear",
+                function()
+                    self.paralax_2_start = 0
+                end)
+            end)
+
+
     end
 }
 
@@ -35,6 +62,24 @@ function Background:draw()
             x = x + IMG_BG:getWidth()*scale
         end
 
+
+
+
+        --Draw paralax
+        Color.set(Color.white())
+        local scale = .5
+        local x = self.paralax_2_start
+        while (x < WIN_W) do
+            love.graphics.draw(self.paralax_2_image, x, WIN_H - self.paralax_2_image:getHeight()*scale, 0, scale, scale)
+            x = x + self.paralax_2_image:getWidth()*scale
+        end
+
+        Color.set(Color.white())
+        local x = self.paralax_1_start
+        while (x < WIN_W) do
+            love.graphics.draw(self.paralax_1_image, x, WIN_H - self.paralax_1_image:getHeight()*scale, 0, scale, scale)
+            x = x + self.paralax_1_image:getWidth()*scale
+        end
 
         --Draw ship "possible-positions" line
         s = Util.findId("player")
