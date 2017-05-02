@@ -26,7 +26,8 @@ function state:enter()
 	BPM_C = 0
 	MUSIC_BEAT = 0
 
-	Bgm.create(BGM_MAIN, 2) --Create background music object with start time
+	Bgm.create(BGM_MAIN, 2, "cur_bgm") --Create background music object with start time
+	Bgm.create(SFX_AMBIENCE, 0, "ambience_sfx")
 
 	Background.create() --Create background
 
@@ -35,10 +36,10 @@ function state:enter()
 	--Create enemies
 	--(x, y, enter_time, leave_time, shoot_pattern, id)
 	Enemy.create(1052.6,296.9,1,21,{2,3,4,5,10,12,14,16,20,21})
-	--Enemy.create(1106.6,100.95,3,23,{2,3,4,5,10,12,14,16,20,21})
-	--Enemy.create(1106.6,500.95,4,24,{2,3,4,5,10,12,14,16,20,21})
-	--Enemy.create(926.65,183.1,8,28,{2,3,4,5,10,12,14,16,20,21})
-	--Enemy.create(1015.65,63.1,12,32,{2,3,4,5,10,12,14,16,20,21})
+	Enemy.create(1106.6,100.95,3,23,{2,3,4,5,10,12,14,16,20,21})
+	Enemy.create(1106.6,500.95,4,24,{2,3,4,5,10,12,14,16,20,21})
+	Enemy.create(926.65,183.1,8,28,{2,3,4,5,10,12,14,16,20,21})
+	Enemy.create(1015.65,63.1,12,32,{2,3,4,5,10,12,14,16,20,21})
 	--Enemy.create(15,2,2,20,{6,7,8,9,11,13,15,17,20,21})
 	--Enemy.create(13,3,0,22,{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17})
 
@@ -73,6 +74,7 @@ function state:update(dt)
 	Util.updateDrawTable(dt)
 
 	Util.updateId(dt, "cur_bgm")
+	Util.updateId(dt, "ambience_sfx")
 
 	Util.updateTimers(dt)
 

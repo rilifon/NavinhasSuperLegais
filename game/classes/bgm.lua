@@ -39,7 +39,7 @@ end
 
 --Create and return a bgm object
 function bgm.create(source, start, id)
-    local id = id or "cur_bgm"
+    local id = id or "some_bgm"
     local b = BGM(source, start)
     b:setId(id)
 
