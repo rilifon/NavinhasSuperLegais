@@ -1,5 +1,4 @@
 --MODULE FOR BACKGROUND--
-local Color = require "classes.color"
 
 local bg = {}
 
@@ -19,7 +18,6 @@ Background = Class{
         self.paralax_1_start = 0
         self.paralax_1_image = IMG_PARALAX1
         self.paralax_1_speed = 2000
-        print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
         self.handles["paralax_1_every"] = MAIN_TIMER.every(self.paralax_1_image:getWidth()/self.paralax_1_speed,
             function()
                 self.handles["paralax_1_tween"] = MAIN_TIMER.tween(self.paralax_1_image:getWidth()/self.paralax_1_speed, self, {paralax_1_start = -self.paralax_1_image:getWidth()}, "in-linear",
@@ -54,10 +52,10 @@ function Background:draw()
 
         --Draw the background image
         Color.set(Color.white())
-        local scale = WIN_H/IMG_BG:getHeight() --Scale bg to fit on screen
+        local scale = O_WIN_H/IMG_BG:getHeight() --Scale bg to fit on screen
         --Draws the background image repeatedly until it fills the screen
         local x = 0
-        while (x < WIN_W) do
+        while (x < O_WIN_W) do
             love.graphics.draw(IMG_BG, x, 0, 0, scale, scale)
             x = x + IMG_BG:getWidth()*scale
         end
@@ -69,15 +67,15 @@ function Background:draw()
         Color.set(Color.white())
         local scale = .5
         local x = self.paralax_2_start
-        while (x < WIN_W) do
-            love.graphics.draw(self.paralax_2_image, x, WIN_H - self.paralax_2_image:getHeight()*scale, 0, scale, scale)
+        while (x < O_WIN_W) do
+            love.graphics.draw(self.paralax_2_image, x, O_WIN_H - self.paralax_2_image:getHeight()*scale, 0, scale, scale)
             x = x + self.paralax_2_image:getWidth()*scale
         end
 
         Color.set(Color.white())
         local x = self.paralax_1_start
-        while (x < WIN_W) do
-            love.graphics.draw(self.paralax_1_image, x, WIN_H - self.paralax_1_image:getHeight()*scale, 0, scale, scale)
+        while (x < O_WIN_W) do
+            love.graphics.draw(self.paralax_1_image, x, O_WIN_H - self.paralax_1_image:getHeight()*scale, 0, scale, scale)
             x = x + self.paralax_1_image:getWidth()*scale
         end
 
@@ -88,14 +86,14 @@ function Background:draw()
             local color = RGB(247, 116, 164,150)
             Color.set(color)
             local adjust = 25 --Adjust on line x coordinate so its alligned with the player body
-            love.graphics.line(s.pos.x + adjust, s.margin_distance, s.pos.x + adjust, WIN_H - s.margin_distance)
+            love.graphics.line(s.pos.x + adjust, s.margin_distance, s.pos.x + adjust, O_WIN_H - s.margin_distance)
         end
 
         --Draw window division for moving/shooting with the ship when touching
         love.graphics.setLineWidth(3)
         local color = RGB(247, 116, 164,150)
         Color.set(color)
-        love.graphics.line(WINDOW_DIVISION, 0, WINDOW_DIVISION, WIN_H)
+        love.graphics.line(WINDOW_DIVISION, 0, WINDOW_DIVISION, O_WIN_H)
 
     end
 

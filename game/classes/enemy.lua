@@ -1,5 +1,4 @@
 --MODULE FOR THE COOL SHIP--
-local Color = require "classes.color"
 local Bul = require "classes.bullet"
 
 local funcs = {}

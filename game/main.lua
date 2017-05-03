@@ -1,5 +1,6 @@
 --EXTRA LIBS
 require "extra_libs.slam"
+FreeRes = require "extra_libs.FreeRes"
 
 --HUMP STUFF
 Gamestate = require "hump.gamestate"
@@ -11,7 +12,7 @@ Vector    = require "hump.vector"
 
 --CLASSES
 require "classes.primitive"
-require "classes.color"
+Color = require "classes.color"
 require "classes.ship"
 require "classes.bullet"
 require "classes.enemy"
