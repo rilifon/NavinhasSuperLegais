@@ -80,12 +80,13 @@ function Background:draw()
 
 end
 
-function parallax(self,parallax_table)
+function parallax(self, parallax_table)
 	--print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
 	self.handles[parallax_table.handle] =
 	MAIN_TIMER.tween(parallax_table.tween_time, parallax_table, {start = -parallax_table.image:getWidth()}, "in-linear",
 		function()
-			parallax(parallax_table)
+			parallax_table.start = 0
+			parallax(self, parallax_table)
 		end)
 end
 
