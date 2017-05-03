@@ -15,7 +15,9 @@ Background = Class{
 
         self.type = "background"
 
+        --Parallax in the front
 		self.parallax1 = {image=IMG_PARALAX1, tween_time=20,start=0,handle="parallax_tween_1"}
+        --Parallax in the back
 		self.parallax2 = {image=IMG_PARALAX2, tween_time=40,start=0,handle="parallax_tween_2"}
 
 		parallax(self,self.parallax1)
@@ -81,11 +83,10 @@ function Background:draw()
 end
 
 function parallax(self, parallax_table)
-	--print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
 	self.handles[parallax_table.handle] =
 	MAIN_TIMER.tween(parallax_table.tween_time, parallax_table, {start = -parallax_table.image:getWidth()}, "in-linear",
 		function()
-			parallax_table.start = 0
+            parallax_table.start = 0
 			parallax(self, parallax_table)
 		end)
 end
