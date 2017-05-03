@@ -38,8 +38,8 @@ function setup.config()
 
     WINDOW_WIDTH = w --Current width of the game window
     WINDOW_HEIGHT = h --Current height of the game window
-    O_WIN_W = 1200 --Default width of the game window
-    O_WIN_H = 600 --Default height of the game window
+    O_WIN_W = 2276 --Default width of the game window
+    O_WIN_H = 1536 --Default height of the game window
     PREVIOUS_WINDOW_WIDTH = WINDOW_WIDTH --Window width before fullscreen
     PREVIOUS_WINDOW_HEIGHT = WINDOW_HEIGHT --Window height before fullscreen
 
