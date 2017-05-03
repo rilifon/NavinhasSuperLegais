@@ -43,20 +43,21 @@ function Background:draw()
 
 
 
-        --Draw paralax
+        --Draw paralax 2
         Color.set(Color.white())
         local scale = .5
-        local x = self.paralax_2_start
+        local x = self.parallax2.start
         while (x < O_WIN_W) do
-            love.graphics.draw(self.paralax_2_image, x, O_WIN_H - self.paralax_2_image:getHeight()*scale, 0, scale, scale)
-            x = x + self.paralax_2_image:getWidth()*scale
+            love.graphics.draw(self.parallax2.image, x, O_WIN_H - self.parallax2.image:getHeight()*scale, 0, scale, scale)
+            x = x + self.parallax2.image:getWidth()*scale
         end
 
+        --Draw parallax 1
         Color.set(Color.white())
-        local x = self.paralax_1_start
+        local x = self.parallax1.start
         while (x < O_WIN_W) do
-            love.graphics.draw(self.paralax_1_image, x, O_WIN_H - self.paralax_1_image:getHeight()*scale, 0, scale, scale)
-            x = x + self.paralax_1_image:getWidth()*scale
+            love.graphics.draw(self.parallax1.image, x, O_WIN_H - self.parallax1.image:getHeight()*scale, 0, scale, scale)
+            x = x + self.parallax1.image:getWidth()*scale
         end
 
         --Draw ship "possible-positions" line
@@ -82,7 +83,7 @@ end
 function parallax(self,parallax_table)
 	--print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
 	self.handles[parallax_table.handle] =
-	MAIN_TIMER.tween(parallax_table.tween_time, parallax_table, {start = -parallax_table.image:getWidth()}, "in-linear", 
+	MAIN_TIMER.tween(parallax_table.tween_time, parallax_table, {start = -parallax_table.image:getWidth()}, "in-linear",
 		function()
 			parallax(parallax_table)
 		end)
