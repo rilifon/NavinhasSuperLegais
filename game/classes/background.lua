@@ -16,32 +16,11 @@ Background = Class{
 
         self.type = "background"
 
-        self.paralax_1_start = 0
-        self.paralax_1_image = IMG_PARALAX1
-        self.paralax_1_speed = 2000
-        print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
-        self.handles["paralax_1_every"] = MAIN_TIMER.every(self.paralax_1_image:getWidth()/self.paralax_1_speed,
-            function()
-                self.handles["paralax_1_tween"] = MAIN_TIMER.tween(self.paralax_1_image:getWidth()/self.paralax_1_speed, self, {paralax_1_start = -self.paralax_1_image:getWidth()}, "in-linear",
-                function()
-                    self.paralax_1_start = 0
-                end)
-            end)
+		self.parallax1 = {image=IMG_PARALAX1, tween_time=20,start=0,handle="parallax_tween_1"}
+		self.parallax2 = {image=IMG_PARALAX2, tween_time=40,start=0,handle="parallax_tween_2"}
 
-        self.paralax_2_start = 0
-        self.paralax_2_image = IMG_PARALAX2
-        self.paralax_2_speed = 1000
-        --Start paralax 2 repetitive tween
-        self.handles["paralax_2_every"] = MAIN_TIMER.every(self.paralax_2_image:getWidth()/self.paralax_2_speed,
-            function()
-                self.handles["paralax_2_tween"] = MAIN_TIMER.tween(self.paralax_2_image:getWidth()/self.paralax_2_speed, self, {paralax_2_start = -self.paralax_2_image:getWidth()},
-                "in-linear",
-                function()
-                    self.paralax_2_start = 0
-                end)
-            end)
-
-
+		parallax(self,self.parallax1)
+		parallax(self,self.parallax2)
     end
 }
 
@@ -99,6 +78,15 @@ function Background:draw()
 
     end
 
+end
+
+function parallax(self,parallax_table)
+	--print(self.paralax_1_image:getWidth()/self.paralax_1_speed)
+	self.handles[parallax_table.handle] =
+	MAIN_TIMER.tween(parallax_table.tween_time, parallax_table, {start = -parallax_table.image:getWidth()}, "in-linear", 
+		function()
+			parallax(parallax_table)
+		end)
 end
 
 --UTILITY FUNCTIONS--
