@@ -1,5 +1,4 @@
 --MODULE FOR BULLETS--
-local Color = require "classes.color"
 
 local bullet = {}
 
@@ -85,9 +84,9 @@ function Bullet:update(dt)
     end
 
     if not b.death and
-       (b.pos.x > WIN_W or
+       (b.pos.x > O_WIN_W or
         b.pos.x + b.w  < 0 or
-        b.pos.y > WIN_H or
+        b.pos.y > O_WIN_H or
         b.pos.y + b.h < 0) then
            b:kill()
     end

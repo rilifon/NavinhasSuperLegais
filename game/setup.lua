@@ -34,8 +34,14 @@ function setup.config()
     --GLOBAL VARIABLES--
     DEBUG = true --DEBUG mode status
 
-    WIN_W = 1200 --Current width of the game window
-    WIN_H = 600 --Current height of the game window
+    local w, h = love.graphics.getDimensions() --Get current window size
+
+    WINDOW_WIDTH = w --Current width of the game window
+    WINDOW_HEIGHT = h --Current height of the game window
+    O_WIN_W = 1200 --Default width of the game window
+    O_WIN_H = 600 --Default height of the game window
+    PREVIOUS_WINDOW_WIDTH = WINDOW_WIDTH --Window width before fullscreen
+    PREVIOUS_WINDOW_HEIGHT = WINDOW_HEIGHT --Window height before fullscreen
 
     BPM_M = 128 --Beats per minute of current BGM
     BPM_C = 0   --BPM counter
@@ -44,7 +50,7 @@ function setup.config()
 
     PULSE_TIME = .2 --Time for ship to start and finish a pulse
 
-    WINDOW_DIVISION = 2*WIN_W/3 --Division where window touch is reserved for player movement (left) or shooting (right)
+    WINDOW_DIVISION = 2*O_WIN_W/3 --Division where window touch is reserved for player movement (left) or shooting (right)
 
     --TIMERS--
     MAIN_TIMER = Timer.new()  --General Timer
@@ -64,7 +70,8 @@ function setup.config()
     ID_TABLE = {} --Table with elements with Ids (for fast lookup)
 
     --WINDOW CONFIG--
-    love.window.setMode(WIN_W, WIN_H)
+    love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT)
+    FreeRes.setScreen()
 
     --CAMERA--
     CAM = Camera(love.graphics.getWidth()/2, love.graphics.getHeight()/2) --Set camera position to center of screen

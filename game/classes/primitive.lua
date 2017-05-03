@@ -1,6 +1,4 @@
 --PRIMITIVE CLASS--
-local Color = require "classes.color"
-
 local primitive = {}
 
 --[[Primitive classes to inherit from]]

@@ -1,5 +1,4 @@
 --MODULE FOR THE COOL SHIP--
-local Color = require "classes.color"
 local Bul = require "classes.bullet"
 
 local funcs = {}
@@ -18,7 +17,7 @@ Ship = Class{
 
         --Fix ship distance so it doesn't leave the screen
         y = math.max(y, self.margin_distance)
-        y = math.min(y, WIN_H - self.margin_distance)
+        y = math.min(y, O_WIN_H - self.margin_distance)
 
         ELEMENT.init(self)
         POS.init(self, x, y)
@@ -92,7 +91,7 @@ function Ship:mousepressed(x, y, button, istouch)
     if x <= WINDOW_DIVISION and (button == 1) then
         --Fix target y value so it doesn't leave the screen
         y = math.max(y, s.margin_distance)
-        y = math.min(y, WIN_H - s.margin_distance)
+        y = math.min(y, O_WIN_H - s.margin_distance)
         --Start ship movement
         s:move(y)
     --Shoot a bullet
@@ -117,7 +116,7 @@ function Ship:touchmoved( id, x, y, dx, dy, pressure )
     if x <= WINDOW_DIVISION then
         --Fix target y value so it doesn't leave the screen
         y = math.max(y, s.margin_distance)
-        y = math.min(y, WIN_H - s.margin_distance)
+        y = math.min(y, O_WIN_H - s.margin_distance)
         --Start ship movement
         s:move(y)
 	end
