@@ -7,7 +7,7 @@ local funcs = {}
 --[[Has a time to enter and leave screen, and a shoot pattern. The shoot pattern must be in crescent order]]
 Enemy = Class{
     __includes = {ELEMENT, POS, CLR},
-    init = function(self, _x, _y, _enter_time, _leave_time,_shoot_pattern)
+    init = function(self, _x, _y, _enter_time, _leave_time, _shoot_pattern, _target_pattern)
 
         --Creating circle shape
         POS.init(self, _x, _y)
@@ -21,6 +21,17 @@ Enemy = Class{
 
         self.shoot_pattern = _shoot_pattern or {} --Which beats the enemy shoots
         self.shoot_indicator = 1 --Indicates which part of the shoot_pattern the enemy is
+
+        self.target_pattern = _target_pattern or {} --Which beats the enemy will be targeted
+        self.target_indicator = 1 --Indicates which part of the target_pattern the enemy is
+        self.target_duration = .5 --Time the target takes to reach the enemy
+        self.target_tolerance = .1 --Tolerance before and after the target reaching the enemy so the player can react
+        self.is_being_targeted = false --If this enemy is being targeted
+        self.target_pos = Vector(_x, _y)
+        self.target_initial_radius = 20
+        self.target_radius = self.target_initial_radius
+
+
 
         self.col_pos = Vector(_x, _y)
         self.col_r = 5
@@ -44,6 +55,14 @@ function Enemy:update(dt)
         MUSIC_BEAT >= s.shoot_pattern[s.shoot_indicator] then
             s.shoot_indicator = s.shoot_indicator + 1
             s:shoot()
+    end
+
+    --Checks if enemy can be targeted
+    if  s.entered and
+        s.target_indicator <= Util.tableLen(s.target_pattern) and
+        MUSIC_BEAT >= s.target_pattern[s.target_indicator] - s.target_duration then
+            s.shoot_indicator = s.shoot_indicator + 1
+            s:target()
     end
 
     --checks if enemy must leave the screen
@@ -82,6 +101,15 @@ function Enemy:shoot()
     SFX_ENEMY_SHOT:play()
     local s = self
     local b = Bul.create(s.pos.x, s.pos.y, Vector(-1,0), Color.white(), IMG_SHOT1, "enemy_bullet")
+
+end
+
+--Target will zoom in to the enemy
+function Enemy:target()
+    local s = self
+    s.is_being_targeted = true
+    s.target_radius = s.target_initial_radius
+
 
 end
 
