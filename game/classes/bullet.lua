@@ -108,7 +108,7 @@ function Bullet:hitEnemy()
 
 end
 
---Check collision of bullet with something
+--Check collision of bullet with something circular that has a col_pos(x,y) and a col_r, representing the position and radius of target
 function Bullet:collides(target)
     local bul = self
     local dx = bul.col_pos.x - target.col_pos.x

@@ -154,7 +154,7 @@ end
 
 --Ship shoots a green bullet to the right, or if ship is pulsing, shoots a big bullet
 function Ship:shoot()
-  SFX_PLAYER_SHOT:play()
+    SFX_PLAYER_SHOT:play()
     local s = self
     local max = 20 --Max size for bullets
 

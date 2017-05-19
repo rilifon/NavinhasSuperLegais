@@ -99,10 +99,23 @@ function state:mousepressed(...)
 
 end
 
-function state:touchpressed(...)
+function state:touchpressed(id, x, y, dx, dy, pressure)
 	local s = Util.findId("player")
 
-	if s then s:touchpressed(...) end --Handles touch for player
+	if not s then return end --leave function if player doesnt exist
+
+	if s then s:touchpressed(id, x, y, dx, dy, pressure) end --Handles touch for player
+
+	--Check touch collision with all enemies
+
+	local enemies = Util.findSbTp("enemies")
+	if enemies then
+		for enemy in pairs(enemies) do
+			--Check collision between enemy and circle of radius 1 (a point) where user touched
+			if enemy:collides({col_pos = Vector(x,y), col_r = 1}) and enemy:canBeShot() then
+				s:shoot(enemy.col_pos.x, enemy.col_pos.y)
+			end
+		end
 end
 
 function state:touchmoved(...)

@@ -127,6 +127,28 @@ function Enemy:target()
 
 end
 
+--Check collision of enmy with something circular that has a col_pos(x,y) and a col_r, representing the position and radius of target
+function Enemy:collides(target)
+    local enemy = self
+    local dx = enemy.col_pos.x - target.col_pos.x
+    local dy = enemy.col_pos.y - target.col_pos.y
+    local dr = enemy.col_r + target.col_r
+
+    return (dx*dx + dy*dy) < dr*dr
+end
+
+--Returns true if target is inside the tolerance so the plaeyr can shoot the enemy. False otherwise
+function Enemy:canBeShot()
+
+    if self.is_being_targeted and
+       MUSIC_BEAT >= s.target_pattern[s.target_indicator - 1] - s.target_tolerance and
+       MUSIC_BEAT <= s.target_pattern[s.target_indicator - 1] + s.target_tolerance then
+           return true
+    end
+
+    return false
+end
+
 --If enemy gets hit, destroy him
 function Enemy:getHit()
 
