@@ -24,12 +24,13 @@ Enemy = Class{
 
         self.target_pattern = _target_pattern or {} --Which beats the enemy will be targeted
         self.target_indicator = 1 --Indicates which part of the target_pattern the enemy is
-        self.target_duration = .5 --Time the target takes to reach the enemy
-        self.target_tolerance = .1 --Tolerance before and after the target reaching the enemy so the player can react
+        self.target_duration = 2 --Time the target takes to reach the enemy
+        self.target_tolerance = .5 --Tolerance before and after the target reaching the enemy so the player can react
         self.is_being_targeted = false --If this enemy is being targeted
-        self.target_pos = Vector(_x, _y)
-        self.target_initial_radius = 20
-        self.target_radius = self.target_initial_radius
+        self.target_pos = Vector(_x, _y) --Center position of target
+        self.target_initial_radius = 50 --Initial radius of target
+        self.target_radius = self.target_initial_radius --Current radius of target
+        self.target_tween = nil
 
 
 
@@ -61,7 +62,7 @@ function Enemy:update(dt)
     if  s.entered and
         s.target_indicator <= Util.tableLen(s.target_pattern) and
         MUSIC_BEAT >= s.target_pattern[s.target_indicator] - s.target_duration then
-            s.shoot_indicator = s.shoot_indicator + 1
+            s.target_indicator = s.target_indicator + 1
             s:target()
     end
 
@@ -88,10 +89,15 @@ function Enemy:draw()
         love.graphics.circle("fill", s.col_pos.x, s.col_pos.y, s.col_r)
     end
 
+    if s.is_being_targeted then
+        Color.set(Color.red())
+        love.graphics.setLineWidth(3)
+        love.graphics.circle("line", s.target_pos.x, s.target_pos.y, s.target_radius)
+    end
+
 end
 
 function Enemy:leave()
-    print "enemy is kill"
     self.death = true
 end
 
@@ -107,9 +113,17 @@ end
 --Target will zoom in to the enemy
 function Enemy:target()
     local s = self
-    s.is_being_targeted = true
-    s.target_radius = s.target_initial_radius
 
+    --Remove previous tween if any
+    if s.target_tween then MAIN_TIMER:cancel(s.target_tween) end
+
+    s.is_being_targeted = true
+    s.target_radius = s.target_initial_radius --Reset radius of target
+    s.target_tween = MAIN_TIMER.tween(s.target_duration, s, {target_radius = 0}, "in-linear",
+        function()
+            s.is_being_targeted = false
+        end
+    )
 
 end
 
@@ -129,10 +143,10 @@ end
 ------------------
 
 --Create an enemy in the (x,y) position on the grid, with a shooting_pattern and an optional id
-function funcs.create(x, y, enter_time, leave_time, shoot_pattern, id)
+function funcs.create(x, y, enter_time, leave_time, shoot_pattern, target_pattern, id)
     local enemy
 
-    enemy = Enemy(x, y, enter_time, leave_time, shoot_pattern)
+    enemy = Enemy(x, y, enter_time, leave_time, shoot_pattern, target_pattern)
     enemy:addElement(DRAW_TABLE.L2, "enemies", id)
 
     return enemy

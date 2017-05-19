@@ -34,15 +34,9 @@ function state:enter()
 	Ship.create() --Create ship
 
 	--Create enemies
-	--(x, y, enter_time, leave_time, shoot_pattern, id)
-	Enemy.create(2138.85,436.8,3,23,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(2138.85,1137.1,4,24,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(1946.9,1070.65,8,28,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(1946.9,537.9,8,28,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(2011.9,1233,12,32,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(2011.9,346.85,12,32,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(1642.75,102.95,16,36,{2,3,4,5,10,12,14,16,20,21})
-	Enemy.create(1732.05,269.1,17,37,{2,3,4,5,10,12,14,16,20,21})
+	--(x, y, enter_time, leave_time, shoot_pattern, target_pattern, id)
+	Enemy.create(2138.85, 436.8, 3, 40, {2,3,4,5,6}, {10,30})
+
 end
 
 function state:leave()
