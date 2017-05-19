@@ -92,10 +92,30 @@ function state:keypressed(key)
 
 end
 
-function state:mousepressed(...)
+function state:mousepressed(x, y, button, istouch)
 	local s = Util.findId("player")
 
-	if s then s:mousepressed(...) end --Handles keypressing for player
+	if s then s:mousepressed(x, y, button, istouch) end --Handles keypressing for player
+
+	--Check touch collision with all enemies
+	local w, h = FreeRes.windowDistance()
+    local scale = FreeRes.scale()
+    x = x - w
+    x = x*(1/scale)
+    y = y - h
+    y = y*(1/scale)
+
+	local enemies = Util.findSbTp("enemies")
+	if enemies then
+		for enemy in pairs(enemies) do
+			--Check collision between enemy and circle of radius 1 (a point) where user touched
+			if enemy:collides({col_pos = Vector(x,y), col_r = 5}) then
+			 	if enemy:canBeShot() then
+					s:shoot(enemy.col_pos.x, enemy.col_pos.y)
+				end
+			end
+		end
+	end
 
 end
 
@@ -107,15 +127,26 @@ function state:touchpressed(id, x, y, dx, dy, pressure)
 	if s then s:touchpressed(id, x, y, dx, dy, pressure) end --Handles touch for player
 
 	--Check touch collision with all enemies
+	local w, h = FreeRes.windowDistance()
+	local scale = FreeRes.scale()
+	x = x - w
+	x = x*(1/scale)
+	y = y - h
+	y = y*(1/scale)
 
 	local enemies = Util.findSbTp("enemies")
 	if enemies then
 		for enemy in pairs(enemies) do
 			--Check collision between enemy and circle of radius 1 (a point) where user touched
-			if enemy:collides({col_pos = Vector(x,y), col_r = 1}) and enemy:canBeShot() then
-				s:shoot(enemy.col_pos.x, enemy.col_pos.y)
+			if enemy:collides({col_pos = Vector(x,y), col_r = 5}) then
+				if enemy:canBeShot() then
+					print(enemy.col_pos.x, enemy.col_pos.y)
+					s:shoot(enemy.col_pos.x, enemy.col_pos.y)
+				end
 			end
 		end
+	end
+
 end
 
 function state:touchmoved(...)

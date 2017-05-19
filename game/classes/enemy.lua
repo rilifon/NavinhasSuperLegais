@@ -25,7 +25,7 @@ Enemy = Class{
         self.target_pattern = _target_pattern or {} --Which beats the enemy will be targeted
         self.target_indicator = 1 --Indicates which part of the target_pattern the enemy is
         self.target_duration = 2 --Time the target takes to reach the enemy
-        self.target_tolerance = .5 --Tolerance before and after the target reaching the enemy so the player can react
+        self.target_tolerance = 2 --Tolerance before and after the target reaching the enemy so the player can react
         self.is_being_targeted = false --If this enemy is being targeted
         self.target_pos = Vector(_x, _y) --Center position of target
         self.target_initial_radius = 50 --Initial radius of target
@@ -35,7 +35,7 @@ Enemy = Class{
 
 
         self.col_pos = Vector(_x, _y)
-        self.col_r = 5
+        self.col_r = 20
 
         self.type = "enemy"
     end
@@ -130,6 +130,7 @@ end
 --Check collision of enmy with something circular that has a col_pos(x,y) and a col_r, representing the position and radius of target
 function Enemy:collides(target)
     local enemy = self
+
     local dx = enemy.col_pos.x - target.col_pos.x
     local dy = enemy.col_pos.y - target.col_pos.y
     local dr = enemy.col_r + target.col_r
@@ -141,8 +142,8 @@ end
 function Enemy:canBeShot()
 
     if self.is_being_targeted and
-       MUSIC_BEAT >= s.target_pattern[s.target_indicator - 1] - s.target_tolerance and
-       MUSIC_BEAT <= s.target_pattern[s.target_indicator - 1] + s.target_tolerance then
+       MUSIC_BEAT >= self.target_pattern[self.target_indicator - 1] - self.target_tolerance and
+       MUSIC_BEAT <= self.target_pattern[self.target_indicator - 1] + self.target_tolerance then
            return true
     end
 

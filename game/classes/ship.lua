@@ -71,16 +71,6 @@ function Ship:getHit()
 
 end
 
-function Ship:keypressed(key)
-    local s = self --Ship
-
-    --Shoot a bullet
-    if key == "z" or key == "space" then
-        s:shoot()
-    end
-
-end
-
 function Ship:mousepressed(x, y, button, istouch)
     local s = self --Ship
 
@@ -104,22 +94,7 @@ function Ship:mousepressed(x, y, button, istouch)
         s:move(y)
     --Shoot a bullet
     elseif x > WINDOW_DIVISION and (button == 1) then
-        s:shoot()
-    end
-
-end
-
-function Ship:touchpressed(id, x, y, dx, dy, pressure )
-    local s = self --Ship
-
-    local w, h = FreeRes.windowDistance()
-    local scale = FreeRes.scale()
-    x = x - w
-    x = x*(1/scale)
-
-    --Shoot a bullet
-    if x > WINDOW_DIVISION then
-        s:shoot()
+        --s:shoot(x,y)
     end
 
 end
@@ -153,20 +128,19 @@ function Ship:move(y)
 end
 
 --Ship shoots a green bullet to the right, or if ship is pulsing, shoots a big bullet
-function Ship:shoot()
-    SFX_PLAYER_SHOT:play()
-    local s = self
-    local max = 20 --Max size for bullets
+function Ship:shoot(_x,_y)
+	SFX_PLAYER_SHOT:play()
+    local sx = self.pos.x
+	local sy = self.pos.y
+	local tx = _x
+	local ty = _y
 
-    if not s.pulsing then
-        s.chain_bonus = 0
-        Bul.create(s.pos.x, s.pos.y, Vector(1,0), Color.white(), IMG_SHOT1, "player_bullet")
-    else
-        s.chain_bonus = s.chain_bonus + 1 --Increment chain
+	dist = math.sqrt((tx - sx)^2 + (ty - sy)^2)
 
-        Bul.create(s.pos.x, s.pos.y, Vector(1,0), Color.white(), IMG_SHOT1, "player_bullet")
-    end
+	dx = (tx - sx)/dist
+	dy = (ty - sx)/dist
 
+	Bul.create(s.pos.x, s.pos.y, Vector(dx,dy), Color.white(), IMG_SHOT1, "player_bullet")
 end
 
 function Ship:pulse()
