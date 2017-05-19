@@ -135,8 +135,8 @@ function Ship:shoot(_x,_y)
 	local tx = _x
 	local ty = _y
 	
+	--Defines the bullet's speed vector
 	dist = math.sqrt((tx - sx)^2 + (ty - sy)^2)
-
 	dx = (tx - sx)/dist
 	dy = (ty - sx)/dist	
 	

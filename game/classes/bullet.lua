@@ -50,16 +50,12 @@ function Bullet:draw()
     --Draw bullet
     local w, h = IMG_SHOT1:getDimensions()
     Color.set(b.color)
-    --Check direction of bullet in case you need to invert the sprite
-    local invert
-    if b.speed.x <= 0 then
-        invert = -1
-    else
-        invert = 1
-    end
+
+	--Finds bullet angle
+	r = b.speed:angleTo()
 
     --Draw bullet image
-    love.graphics.draw(IMG_SHOT1, b.pos.x - invert*w/2, b.pos.y - invert*h/2, 0, invert)
+    love.graphics.draw(IMG_SHOT1, b.pos.x - w/2, b.pos.y - h/2, r)
 
     --DEBUG: Print collision circle
     if DEBUG then
