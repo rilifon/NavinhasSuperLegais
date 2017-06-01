@@ -115,7 +115,7 @@ function Enemy:target()
     local s = self
 
     --Remove previous tween if any
-    if s.target_tween then MAIN_TIMER:cancel(s.target_tween) end
+    if s.target_tween then MAIN_TIMER.cancel(s.target_tween) end
 
     s.is_being_targeted = true
     s.target_radius = s.target_initial_radius --Reset radius of target

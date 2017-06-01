@@ -122,7 +122,7 @@ end
 function Ship:move(y)
     local s = self
 
-    if s.handles["moving"] then MAIN_TIMER:cancel(s.handles["moving"]) end
+    if s.handles["moving"] then MAIN_TIMER.cancel(s.handles["moving"]) end
     s.handles["moving"] = MAIN_TIMER.tween(s.move_duration, s.pos, {y = y}, 'out-quad')
 
 end

@@ -47,7 +47,7 @@ function love.resize(w, h)
     WINDOW_WIDTH = w
     WINDOW_HEIGHT = h
 
-    FreeRes.setScreen(1)
+    FreeRes.setScreen()
 
 end
 
