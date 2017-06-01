@@ -118,6 +118,19 @@ function Ship:touchmoved( id, x, y, dx, dy, pressure )
 	end
 end
 
+function Ship:touchpressed(id, x, y, dx, dy, pressure )
+    local s = self --Ship
+
+	--EU DEIXEI ISSO AQUI MAS NÃO SEI SE É NECESSARIO (SIM, EU ESTOU DEIXANDO ESSE TIPO DE COMENTÁRIO NO CÓDIGO)
+    local w, h = FreeRes.windowDistance()
+    local scale = FreeRes.scale()
+    x = x - w
+    x = x*(1/scale)
+    y = y - h
+    y = y*(1/scale)
+ 
+end
+
 --Tweens ships y coordinate to given value
 function Ship:move(y)
     local s = self
@@ -137,8 +150,9 @@ function Ship:shoot(_x,_y)
 
 	--Defines the bullet's speed vector
 	dist = math.sqrt((tx - sx)^2 + (ty - sy)^2)
+
 	dx = (tx - sx)/dist
-	dy = (ty - sx)/dist
+	dy = (ty - sy)/dist
 
 	Bul.create(s.pos.x, s.pos.y, Vector(dx,dy), Color.white(), IMG_SHOT1, "player_bullet")
 end
