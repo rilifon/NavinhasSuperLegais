@@ -16,9 +16,9 @@ function draw.allTables()
 
     CAM:attach() --Start tracking camera
 
-    DrawTable(DRAW_TABLE.L1)
+    DrawTable(DRAW_TABLE.L1) --Bullets
 
-    DrawTable(DRAW_TABLE.L2)
+    DrawTable(DRAW_TABLE.L2) --Player and enemies
 
     CAM:detach() --Stop tracking camera
 

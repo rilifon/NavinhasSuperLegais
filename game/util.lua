@@ -212,6 +212,72 @@ function util.destroyId(id)
 
 end
 
+-----------------------
+--COLLISION FUNCTIONS--
+-----------------------
+
+--[[
+Checks collision between a point and a rectangle. Returns a bool value.
+
+point = {
+    x,  -- X coordinate of point
+    y,  -- Y coordinate of point
+}
+
+rect = {
+    x,  -- X coordinate of top left corner of rectangle
+    y,  -- Y coordinate of top left corner of rectangle
+    w,  -- Width of rectangle
+    h,  -- Height of rectangle
+}
+
+]]
+function util.pointInRect(point, rect)
+
+    if point.x >= rect.x and
+       point.x <= rect.x + rect.w and
+       point.y >= rect.y and
+       point.y <= rect.y + rect.h then
+           return true
+    end
+
+    return false
+
+end
+
+--[[
+Checks collision between a circle and a rectangle. Returns a bool value.
+
+circ = {
+    x,  -- X coordinate of circle center
+    y,  -- Y coordinate of circle center
+    r,  -- Radius of circle
+}
+
+rect = {
+    x,  -- X coordinate of top left corner of rectangle
+    y,  -- Y coordinate of top left corner of rectangle
+    w,  -- Width of rectangle
+    h,  -- Height of rectangle
+}
+
+]]
+function util.circInRect(circ, rect)
+
+    -- Find the closest point to the circle within the rectangle
+    local closestX = util.clamp(circ.x, rect.x, rect.x + rect.w)
+    local closestY = util.clamp(circ.y, rect.y, rect.y + rect.h)
+
+    -- Calculate the distance between the circle's center and this closest point
+    local distanceX = circ.x - closestX
+    local distanceY = circ.y - closestY
+
+    -- If the distance is less than the circle's radius, an intersection occurs
+    local distanceSquared = (distanceX * distanceX) + (distanceY * distanceY)
+    return distanceSquared < (circ.r * circ.r)
+end
+
+
 ---------------------
 --UTILITY FUNCTIONS--
 ---------------------

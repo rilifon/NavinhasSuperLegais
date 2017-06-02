@@ -121,14 +121,13 @@ end
 function Ship:touchpressed(id, x, y, dx, dy, pressure )
     local s = self --Ship
 
-	--EU DEIXEI ISSO AQUI MAS NÃO SEI SE É NECESSARIO (SIM, EU ESTOU DEIXANDO ESSE TIPO DE COMENTÁRIO NO CÓDIGO)
     local w, h = FreeRes.windowDistance()
     local scale = FreeRes.scale()
     x = x - w
     x = x*(1/scale)
     y = y - h
     y = y*(1/scale)
- 
+
 end
 
 --Tweens ships y coordinate to given value

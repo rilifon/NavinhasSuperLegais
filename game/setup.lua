@@ -28,6 +28,9 @@ function setup.config()
     IMG_SHOT1 = love.graphics.newImage("assets/images/shot_small01.png")
     print("Finished Loading Images!")
 
+    --FONTS--
+    Font.new("chewy", "assets/fonts/Chewy/Chewy.ttf")
+
     --RANDOM SEED--
     love.math.setRandomSeed( os.time() )
 
