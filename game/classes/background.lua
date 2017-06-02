@@ -15,6 +15,8 @@ Background = Class{
 
         self.type = "background"
 
+        self.draw_division = true --If it should draw the division on the screen
+
         --Parallax in the front
 		self.parallax1 = {image=IMG_PARALAX1, tween_time=20,start=0,handle="parallax_tween_1"}
         --Parallax in the back
@@ -73,10 +75,12 @@ function Background:draw()
         end
 
         --Draw window division for moving/shooting with the ship when touching
-        love.graphics.setLineWidth(3)
-        local color = RGB(247, 116, 164,150)
-        Color.set(color)
-        love.graphics.line(WINDOW_DIVISION, 0, WINDOW_DIVISION, O_WIN_H)
+        if self.draw_division then
+            love.graphics.setLineWidth(3)
+            local color = RGB(247, 116, 164,150)
+            Color.set(color)
+            love.graphics.line(WINDOW_DIVISION, 0, WINDOW_DIVISION, O_WIN_H)
+        end
 
     end
 
