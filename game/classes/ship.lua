@@ -74,10 +74,6 @@ end
 function Ship:mousepressed(x, y, button, istouch)
     local s = self --Ship
 
-	if istouch then
-		return
-	end
-
     local w, h = FreeRes.windowDistance()
     local scale = FreeRes.scale()
     x = x - w
@@ -140,7 +136,7 @@ function Ship:move(y)
 
 end
 
---Ship shoots a green bullet to the right, or if ship is pulsing, shoots a big bullet
+--Ship shoots a bullet towards the enemy
 function Ship:shoot(_x,_y)
 	SFX_PLAYER_SHOT:play()
     local sx = self.pos.x

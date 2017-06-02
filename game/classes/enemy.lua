@@ -32,10 +32,10 @@ Enemy = Class{
         self.target_radius = self.target_initial_radius --Current radius of target
         self.target_tween = nil
 
-
+		self.was_shot = false --Used to prevent enemys from being shot twice
 
         self.col_pos = Vector(_x, _y)
-        self.col_r = 20
+        self.col_r = 40
 
         self.type = "enemy"
     end
@@ -105,9 +105,9 @@ end
 --Enemy shoots bullet to the left
 function Enemy:shoot()
     SFX_ENEMY_SHOT:play()
+
     local s = self
     local b = Bul.create(s.pos.x, s.pos.y, Vector(-1,0), Color.white(), IMG_SHOT1, "enemy_bullet")
-
 end
 
 --Target will zoom in to the enemy
@@ -127,7 +127,7 @@ function Enemy:target()
 
 end
 
---Check collision of enmy with something circular that has a col_pos(x,y) and a col_r, representing the position and radius of target
+--Check collision of enemy with something circular that has a col_pos(x,y) and a col_r, representing the position and radius of target
 function Enemy:collides(target)
     local enemy = self
 
@@ -138,12 +138,13 @@ function Enemy:collides(target)
     return (dx*dx + dy*dy) < dr*dr
 end
 
---Returns true if target is inside the tolerance so the plaeyr can shoot the enemy. False otherwise
+--Returns true if target is inside the tolerance so the player can shoot the enemy. False otherwise
 function Enemy:canBeShot()
 
     if self.is_being_targeted and
        MUSIC_BEAT >= self.target_pattern[self.target_indicator - 1] - self.target_tolerance and
-       MUSIC_BEAT <= self.target_pattern[self.target_indicator - 1] + self.target_tolerance then
+       MUSIC_BEAT <= self.target_pattern[self.target_indicator - 1] + self.target_tolerance and
+       self.was_shot == false then --Prevents the enemy from being shot twice
            return true
     end
 

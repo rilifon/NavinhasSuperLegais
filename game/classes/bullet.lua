@@ -52,10 +52,10 @@ function Bullet:draw()
     Color.set(b.color)
 
 	--Finds bullet angle
-	r = b.speed:angleTo()
+	angle = b.speed:angleTo()
 
     --Draw bullet image
-    love.graphics.draw(IMG_SHOT1, b.pos.x - w/2, b.pos.y - h/2, r)
+    love.graphics.draw(IMG_SHOT1, b.pos.x, b.pos.y, angle, nil, nil, w, h/2)
 
     --DEBUG: Print collision circle
     if DEBUG then
