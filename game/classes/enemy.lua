@@ -107,7 +107,7 @@ function Enemy:shoot()
     SFX_ENEMY_SHOT:play()
 
     local s = self
-    local b = Bul.create(s.pos.x, s.pos.y, Vector(-1,0), Color.white(), IMG_SHOT1, "enemy_bullet")
+    local b = Bul.create(s.pos.x, s.pos.y, Vector(-1,0), Color.white(), IMG_SHOT1, 400, "enemy_bullet")
 end
 
 --Target will zoom in to the enemy

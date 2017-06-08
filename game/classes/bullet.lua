@@ -7,7 +7,7 @@ local bullet = {}
 --_dx and _dy are normalized
 Bullet = Class{
     __includes = {ELEMENT, POS, CLR},
-    init = function(self, _x, _y, _dx, _dy, _c, _image)
+    init = function(self, _x, _y, _dx, _dy, _c, _image, _speedv)
         local color
 
         color = _c or Color.blue()--Color of bullet
@@ -19,7 +19,7 @@ Bullet = Class{
         self.image = _image
         self.w, self.h = self.image:getDimensions()
 
-        self.speedv = 400 --Speed value
+        self.speedv = _speedv --Speed value
         self.speed = Vector(_dx*self.speedv or 0, _dy*self.speedv or 0) --Speed vector
 
         self.col_r = 5
@@ -118,11 +118,11 @@ end
 --UTILITY FUNCTIONS--
 
 --Create a bullet in the (x,y) position, direction dir, color c and subtype st
-function bullet.create(x, y, dir, c, image, st)
+function bullet.create(x, y, dir, c, image, speed, st)
 
     st = st or "player_bullet"
 
-    local bullet = Bullet(x, y, dir.x, dir.y, c, image)
+    local bullet = Bullet(x, y, dir.x, dir.y, c, image, speed)
     bullet:addElement(DRAW_TABLE.L1, st)
 
     return bullet

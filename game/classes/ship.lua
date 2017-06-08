@@ -149,7 +149,7 @@ function Ship:shoot(_x,_y)
 	dx = (tx - sx)/dist
 	dy = (ty - sy)/dist
 
-	Bul.create(s.pos.x, s.pos.y, Vector(dx,dy), Color.white(), IMG_SHOT1, "player_bullet")
+	Bul.create(s.pos.x, s.pos.y, Vector(dx,dy), Color.white(), IMG_SHOT1, 1200, "player_bullet")
 end
 
 function Ship:pulse()
