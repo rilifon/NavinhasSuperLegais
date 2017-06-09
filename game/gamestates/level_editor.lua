@@ -11,16 +11,13 @@ local state = {}
 
 --LOCAL VARIABLES--
 
-local pulsed --If ship already pulsed
+local level = {} --saves the level inputs
 
 --LOCAL FUNCTIONS--
-
-local checkCollisions
 
 --STATE FUNCTIONS--
 
 function state:enter()
-
 
 	print("IS EDITOR OH YEH")
 	
@@ -35,11 +32,6 @@ function state:enter()
 	Background.create() --Create background
 
 	Ship.create() --Create ship
-
-	--Create enemies
-	--(x, y, enter_time, leave_time, shoot_pattern, target_pattern, id)
-	Enemy.create(2138.85, 436.8, 3, 40, {2,3,4,5,6}, {10,30})
-
 end
 
 function state:leave()
@@ -75,8 +67,6 @@ function state:update(dt)
 
 	Util.updateTimers(dt)
 
-	checkCollisions()
-
 	Util.destroyAll()
 
 end
@@ -108,18 +98,6 @@ function state:mousepressed(x, y, button, istouch)
     y = y - h
     y = y*(1/scale)
 
-	local enemies = Util.findSbTp("enemies")
-	if enemies then
-		for enemy in pairs(enemies) do
-			--Check collision between enemy and circle of radius 1 (a point) where user touched
-			if enemy:collides({col_pos = Vector(x,y), col_r = 5}) then
-			 	if enemy:canBeShot() then
-					s:shoot(enemy.col_pos.x, enemy.col_pos.y)
-				end
-			end
-		end
-	end
-
 end
 
 function state:touchpressed(id, x, y, dx, dy, pressure)
@@ -137,19 +115,7 @@ function state:touchpressed(id, x, y, dx, dy, pressure)
 	y = y - h
 	y = y*(1/scale)
 
-	local enemies = Util.findSbTp("enemies")
-	if enemies then
-		for enemy in pairs(enemies) do
-			--Check collision between enemy and circle of radius 1 (a point) where user touched
-			if enemy:collides({col_pos = Vector(x,y), col_r = 5}) then
-				if enemy:canBeShot() then
-					print(enemy.col_pos.x, enemy.col_pos.y)
-					s:shoot(enemy.col_pos.x, enemy.col_pos.y)
-				end
-			end
-		end
-	end
-
+	registerTap(x, y, MUSIC_BEAT)
 end
 
 function state:touchmoved(...)
@@ -160,34 +126,13 @@ end
 
 --LOCAL FUNCTIONS
 
-function checkCollisions()
-
-	--Check collision between enemy bullets and the ship
-	local s = Util.findId("player")
-	local enemy_b = Util.findSbTp("enemy_bullet")
-	if enemy_b and s then
-		for bullet in pairs(enemy_b) do
-			if bullet:collides(s) then
-				s:getHit()
-				bullet:hitPlayer()
-			end
-		end
+function registerTap(x, y, beat)
+	table.insert(level,{x,y,beat})
+	local file = io.open("level.txt", "w")
+	for enemy in pairs(level) do
+		file:write(string.format("Enemy.create("..level[enemy][1].." y:"..level[enemy][2].." beat:"..level[enemy][3].."\r\n"))
 	end
-
-	--Check collision between player bullets and enemies
-	local enemies = Util.findSbTp("enemies")
-	local player_b = Util.findSbTp("player_bullet")
-	if player_b and enemies then
-		for bullet in pairs(player_b) do
-			for enemy in pairs(enemies) do
-				if bullet:collides(enemy) then
-					enemy:getHit()
-					bullet:hitEnemy()
-				end
-			end
-		end
-	end
-
+	file:close()
 end
 
 --Return state functions
