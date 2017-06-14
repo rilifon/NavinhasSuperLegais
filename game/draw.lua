@@ -9,9 +9,6 @@ local draw = {}
 --Draws every drawable object from all tables
 function draw.allTables()
 
-    --Makes transformations regarding screen current size
-    FreeRes.transform()
-
     DrawTable(DRAW_TABLE.BG)
 
     CAM:attach() --Start tracking camera
@@ -24,9 +21,6 @@ function draw.allTables()
 
     DrawTable(DRAW_TABLE.GUI)
 
-    --Creates letterbox at the sides of the screen if needed
-    FreeRes.letterbox(Color.black())
-
 end
 
 --Draw all the elements in a table
@@ -34,9 +28,7 @@ function DrawTable(t)
 
     for o in pairs(t) do
         if not o.invisible then
-          love.graphics.setShader(o.shader) --Set object shader, if any
           o:draw() --Call the object respective draw function
-          love.graphics.setShader() --Remove shader, if any
         end
     end
 

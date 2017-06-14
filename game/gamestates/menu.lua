@@ -10,7 +10,7 @@ local state = {}
 
 --LOCAL VARIABLES--
 
-local switch = nil --If game shoudl swith to another state
+local switch = nil --If game should switch to another state
 
 --LOCAL FUNCTIONS--
 
@@ -26,21 +26,17 @@ function state:enter()
 	background.draw_division = false
 
 	--Start Game button
-	Button.createRegularButton(400, 400, 400, 400, Color.red(), "Start Game", function() switch = "game" end)
+	start = Button.createRegularButton(400, 400, 400, 400, Color.red(), "Start Game", function() switch = "game" end)
 
 	--Start Editor button
-	Button.createRegularButton(400, 900, 400, 400, Color.red(), "Start Editor", function() switch = "editor" end)
+	editor = Button.createRegularButton(400, 900, 400, 400, Color.red(), "Start Editor", function() switch = "editor" end)
 
 
 end
 
 function state:leave()
 
-	for _,T in pairs(DRAW_TABLE) do
-		Util.setAtributeTable(T, "death", true)
-	end
-
-	Util.destroyAll()
+	Util.destroyAll("force")
 
 end
 
@@ -77,25 +73,13 @@ end
 
 function state:mousepressed(x, y, button, istouch)
 
-	local w, h = FreeRes.windowDistance()
-    local scale = FreeRes.scale()
-    x = x - w
-    x = x*(1/scale)
-    y = y - h
-    y = y*(1/scale)
+	if isTouch then return end
 
 	checkButtonsCollisions(x, y)
 
 end
 
 function state:touchpressed(id, x, y, dx, dy, pressure)
-
-	local w, h = FreeRes.windowDistance()
-	local scale = FreeRes.scale()
-	x = x - w
-	x = x*(1/scale)
-	y = y - h
-	y = y*(1/scale)
 
 	checkButtonsCollisions(x, y)
 

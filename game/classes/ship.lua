@@ -29,7 +29,6 @@ Ship = Class{
 
         self.move_duration = .1 --Duration for ship to move to a target position
 
-
         --Creating colision values
         self.col_pos = Vector(x, y)
         self.col_r = 20
@@ -74,13 +73,6 @@ end
 function Ship:mousepressed(x, y, button, istouch)
     local s = self --Ship
 
-    local w, h = FreeRes.windowDistance()
-    local scale = FreeRes.scale()
-    x = x - w
-    x = x*(1/scale)
-    y = y - h
-    y = y*(1/scale)
-
     --Move ship
     if x <= WINDOW_DIVISION and (button == 1) then
         --Fix target y value so it doesn't leave the screen
@@ -97,13 +89,6 @@ end
 
 function Ship:touchmoved( id, x, y, dx, dy, pressure )
 
-    local w, h = FreeRes.windowDistance()
-    local scale = FreeRes.scale()
-    x = x - w
-    x = x*(1/scale)
-    y = y - h
-    y = y*(1/scale)
-
     --Move ship
     if x <= WINDOW_DIVISION then
         --Fix target y value so it doesn't leave the screen
@@ -116,13 +101,6 @@ end
 
 function Ship:touchpressed(id, x, y, dx, dy, pressure )
     local s = self --Ship
-
-    local w, h = FreeRes.windowDistance()
-    local scale = FreeRes.scale()
-    x = x - w
-    x = x*(1/scale)
-    y = y - h
-    y = y*(1/scale)
 
 end
 

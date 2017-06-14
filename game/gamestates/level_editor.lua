@@ -1,5 +1,3 @@
-local Util = require "util"
-local Draw = require "draw"
 local Ship = require "classes.ship"
 local Enemy = require "classes.enemy"
 local Background = require "classes.background"
@@ -19,8 +17,6 @@ local level = {} --saves the level inputs
 
 function state:enter()
 
-	print("IS EDITOR OH YEH")
-	
 	--Initialize variables for the game
 	pulsed = false
 	BPM_C = 0
@@ -35,6 +31,8 @@ function state:enter()
 end
 
 function state:leave()
+
+	Util.destroyAll("force")
 
 end
 
@@ -80,40 +78,25 @@ end
 function state:keypressed(key)
 	local s = Util.findId("player")
 
-	if s then s:keypressed(key) end --Handles keypressing for player
     Util.defaultKeyPressed(key)    --Handles keypressing for general stuff
 
 end
 
 function state:mousepressed(x, y, button, istouch)
-	local s = Util.findId("player")
 
+	if isTouch then return end
+
+	local s = Util.findId("player")
 	if s then s:mousepressed(x, y, button, istouch) end --Handles keypressing for player
 
-	--Check touch collision with all enemies
-	local w, h = FreeRes.windowDistance()
-    local scale = FreeRes.scale()
-    x = x - w
-    x = x*(1/scale)
-    y = y - h
-    y = y*(1/scale)
+	registerTap(x, y, MUSIC_BEAT)
 
 end
 
 function state:touchpressed(id, x, y, dx, dy, pressure)
 	local s = Util.findId("player")
 
-	if not s then return end --leave function if player doesnt exist
-
 	if s then s:touchpressed(id, x, y, dx, dy, pressure) end --Handles touch for player
-
-	--Check touch collision with all enemies
-	local w, h = FreeRes.windowDistance()
-	local scale = FreeRes.scale()
-	x = x - w
-	x = x*(1/scale)
-	y = y - h
-	y = y*(1/scale)
 
 	registerTap(x, y, MUSIC_BEAT)
 end
@@ -127,6 +110,9 @@ end
 --LOCAL FUNCTIONS
 
 function registerTap(x, y, beat)
+
+	print("tap registered: x:"..x .." y:"..y.." beat:"..beat)
+
 	table.insert(level,{x,y,beat})
 	local file = io.open("level.txt", "w")
 	for enemy in pairs(level) do

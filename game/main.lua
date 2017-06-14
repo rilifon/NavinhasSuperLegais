@@ -1,7 +1,3 @@
---EXTRA LIBS
-require "extra_libs.slam"
-FreeRes = require "extra_libs.FreeRes"
-
 --HUMP STUFF
 Gamestate = require "hump.gamestate"
 Timer     = require "hump.timer"
@@ -9,6 +5,8 @@ Class     = require "hump.class"
 Camera    = require "hump.camera"
 Vector    = require "hump.vector"
 
+--OTHER EXTRA LIBS
+require "extra_libs.slam"
 
 --CLASSES
 require "classes.primitive"
@@ -24,6 +22,7 @@ Util      = require "util"
 Draw      = require "draw"
 Setup     = require "setup"
 Font      = require "font"
+Res       = require "res_manager"
 
 
 --GAMESTATES
@@ -40,30 +39,13 @@ function love.load()
     Setup.config() --Configure your game
 
     Gamestate.registerEvents() --Overwrites love callbacks to call Gamestate as well
-    Gamestate.switch(GS.MENU)  --Jump to the inicial state
-
-end
-
---Called when user resizes the screen
-function love.resize(w, h)
-
-    WINDOW_WIDTH = w
-    WINDOW_HEIGHT = h
-
-    FreeRes.setScreen()
-
-end
-
------------------
---MOUSE FUNCTIONS
------------------
-
-function love.mousepressed(x, y, button, istouch)
 
     --[[
-    if button == 1 then  --Left mouse button
-        Button.checkCollision(x,y)
-    end
+        Setup support for multiple resolutions. Res.init() Must be called after Gamestate.registerEvents()
+        so it will properly call the draw function applying translations.
     ]]
+    Res.init()
+
+    Gamestate.switch(GS.MENU)  --Jump to the inicial state
 
 end

@@ -41,6 +41,8 @@ end
 
 function state:leave()
 
+	Util.destroyAll("force")
+
 end
 
 
@@ -74,6 +76,7 @@ function state:update(dt)
 
 	checkCollisions()
 
+
 	Util.destroyAll()
 
 end
@@ -87,7 +90,6 @@ end
 function state:keypressed(key)
 	local s = Util.findId("player")
 
-	if s then s:keypressed(key) end --Handles keypressing for player
     Util.defaultKeyPressed(key)    --Handles keypressing for general stuff
 
 end
@@ -113,13 +115,6 @@ function state:touchpressed(id, x, y, dx, dy, pressure)
 	if s then s:touchpressed(id, x, y, dx, dy, pressure) end --Handles touch for player
 
 	--Check touch collision with all enemies
-	local w, h = FreeRes.windowDistance()
-	local scale = FreeRes.scale()
-	x = x - w
-	x = x*(1/scale)
-	y = y - h
-	y = y*(1/scale)
-
 	local enemies = Util.findSbTp("enemies")
 	if enemies then
 		for enemy in pairs(enemies) do
