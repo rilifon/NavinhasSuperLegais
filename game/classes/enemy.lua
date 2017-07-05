@@ -104,7 +104,7 @@ end
 
 --Enemy shoots bullet to the left
 function Enemy:shoot()
-    SFX_ENEMY_SHOT:play()
+    SFX.ENEMY_SHOT:play()
 
     local s = self
     local b = Bul.create(s.pos.x, s.pos.y, Vector(-1,0), Color.white(), IMG_SHOT1, 400, "enemy_bullet")
@@ -155,7 +155,7 @@ end
 function Enemy:getHit()
 
     --Play sfx
-    SFX_HITENEMY:play()
+    SFX.HITENEMY:play()
 
     --Destroy enemy
     self.death = true

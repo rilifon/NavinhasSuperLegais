@@ -20,7 +20,7 @@ local checkCollisions
 
 function state:enter()
 
-	Bgm.create(SFX_AMBIENCE, 0, "ambience_sfx")
+	Bgm.create(SFX.AMBIENCE, 0, "ambience_sfx")
 
 	local background = Background.create() --Create background
 	background.draw_division = false

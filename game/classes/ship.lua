@@ -115,7 +115,7 @@ end
 
 --Ship shoots a bullet towards the enemy
 function Ship:shoot(_x,_y)
-	SFX_PLAYER_SHOT:play()
+	SFX.PLAYER_SHOT:play()
     local sx = self.pos.x
 	local sy = self.pos.y
 	local tx = _x

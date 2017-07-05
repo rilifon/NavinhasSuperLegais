@@ -22,8 +22,8 @@ function state:enter()
 	BPM_C = 0
 	MUSIC_BEAT = 0
 
-	Bgm.create(BGM_MAIN, 2, "cur_bgm") --Create background music object with start time
-	Bgm.create(SFX_AMBIENCE, 0, "ambience_sfx")
+	Bgm.create(TRACKS.MAIN, 2, "cur_bgm") --Create background music object with start time
+	Bgm.create(SFX.AMBIENCE, 0, "ambience_sfx")
 
 	Background.create() --Create background
 

@@ -74,20 +74,22 @@ function setup.config()
 
     --AUDIO--
     --Tracks
-    BGM_MAIN = love.audio.newSource("assets/bgm/mus_jogodenave_loop.wav")
+    TRACKS = {
+      MAIN = love.audio.newSource("assets/bgm/mus_jogodenave_loop.wav"),
+    }
     --SFX
-    SFX_AMBIENCE = love.audio.newSource("assets/sfx/amb_sky_loop.mp3")
-    SFX_AMBIENCE:setLooping(true)
-    SFX_ENEMY_SHOT = love.audio.newSource("assets/sfx/sfx_enemy_shot.mp3")
-    SFX_HITENEMY =  love.audio.newSource({
+    SFX = {
+      AMBIENCE = love.audio.newSource("assets/sfx/amb_sky_loop.mp3"),
+      ENEMY_SHOT = love.audio.newSource("assets/sfx/sfx_enemy_shot.mp3"),
+      HITENEMY =  love.audio.newSource({
                     "assets/sfx/hit_enemy_sfx/sfx_hitenemy_var01.mp3",
                     "assets/sfx/hit_enemy_sfx/sfx_hitenemy_var02.mp3",
                     "assets/sfx/hit_enemy_sfx/sfx_hitenemy_var03.mp3",
                     "assets/sfx/hit_enemy_sfx/sfx_hitenemy_var04.mp3",
                     "assets/sfx/hit_enemy_sfx/sfx_hitenemy_var05.mp3",
                     "assets/sfx/hit_enemy_sfx/sfx_hitenemy_var06.mp3",
-                  })
-    SFX_PLAYER_SHOT = love.audio.newSource({
+                  }),
+      PLAYER_SHOT = love.audio.newSource({
         "assets/sfx/player_shot_sfx/sfx_player_shot1.mp3",
         "assets/sfx/player_shot_sfx/sfx_player_shot2.mp3",
         "assets/sfx/player_shot_sfx/sfx_player_shot3.mp3",
@@ -104,7 +106,9 @@ function setup.config()
         "assets/sfx/player_shot_sfx/sfx_player_shot14.mp3",
         "assets/sfx/player_shot_sfx/sfx_player_shot15.mp3",
         })
+}
 
+        SFX.AMBIENCE:setLooping(true)
 end
 
 --Return functions
